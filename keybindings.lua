@@ -2,15 +2,16 @@
 require("api")
 
 ALL_MODES = {
-	"tool",
-	"color",
-	"shape",
-	"linestyle",
-	"page",
-	"file",
-	"navigation",
-	"visual",
-	"resize",
+  "tool",
+  "color",
+  "shape",
+  "linestyle",
+  "page",
+  "file",
+  "navigation",
+  "visual",
+  "resize",
+  "audio"
 }
 --------------------
 -- KEYBINDINGS:   --
@@ -91,143 +92,138 @@ keybindings = {
 		call = clickRedo,
 	},
 
-	-- Mode Selection
-	tool = {
-		description = "Tool mode",
-		buttons = { "t" },
-		modes = ALL_MODES,
-		call = function()
-			currentMode = "tool"
-			sticky = false
-		end,
-	},
-	color = {
-		description = "Color mode",
-		buttons = { "c" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "color"
-		end,
-	},
-	stickyColor = {
-		description = "Sticky color mode",
-		buttons = { "<Shift>c" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "color"
-			sticky = true
-		end,
-	},
-	shape = {
-		description = "Shape mode",
-		buttons = { "a" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "shape"
-		end,
-	},
-	stickyShape = {
-		description = "Sticky shape mode",
-		buttons = { "<Shift>a" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "shape"
-			sticky = true
-		end,
-	},
-	linestyle = {
-		description = "Linestyle mode",
-		buttons = { "q" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "linestyle"
-		end,
-	},
-	stickyLinestyle = {
-		description = "Sticky linestyle mode",
-		buttons = { "<Shift>q" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "linestyle"
-			sticky = true
-		end,
-	},
-	page = {
-		description = "Page mode",
-		buttons = { "b", "p" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "page"
-		end,
-	},
-	stickyPage = {
-		description = "Sticky page mode",
-		buttons = { "<Shift>b", "<Shift>p" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "page"
-			sticky = true
-		end,
-	},
-	navigation = {
-		description = "Navigation mode",
-		buttons = { "g" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "navigation"
-		end,
-	},
-	stickyNavigation = {
-		description = "Sticky navigation mode",
-		buttons = { "<Shift>g" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "navigation"
-			sticky = true
-		end,
-	},
-	file = {
-		description = "File mode",
-		buttons = { "y" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "file"
-		end,
-	},
-	stickyFile = {
-		description = "Sticky file mode",
-		buttons = { "<Shift>y" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "file"
-			sticky = true
-		end,
-	},
-	visual = {
-		description = "Visual mode",
-		buttons = { "v" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "visual"
-		end,
-	},
-	stickyVisual = {
-		description = "Sticky visual mode",
-		buttons = { "<Shift>v" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "visual"
-			sticky = true
-		end,
-	},
-	resize = {
-		description = "Resize mode",
-		buttons = { "<Shift>F" },
-		modes = { "tool" },
-		call = function()
-			currentMode = "resize"
-		end,
-	},
+  -- Mode Selection
+  tool = {
+    description = "Tool mode",
+    buttons     = {"t"},
+    modes       = ALL_MODES,
+    call        = function()
+      currentMode = "tool"
+      sticky = false
+    end
+  },
+  color = {
+    description = "Color mode",
+    buttons     = {"c"},
+    modes       = {"tool"},
+    call        = function() currentMode = "color" end
+  },
+  stickyColor = {
+    description = "Sticky color mode",
+    buttons     = {"<Shift>c"},
+    modes       = {"tool"},
+    call        = function()
+      currentMode = "color"
+      sticky = true
+    end
+  },
+  shape = {
+    description = "Shape mode",
+    buttons     = {"a"},
+    modes       = {"tool"},
+    call        = function() currentMode = "shape" end
+  },
+  stickyShape = {
+    description = "Sticky shape mode",
+    buttons     = {"<Shift>a"},
+    modes       = {"tool"},
+    call        = function()
+      currentMode = "shape"
+      sticky = true
+    end
+  },
+  linestyle = {
+    description = "Linestyle mode",
+    buttons     = {"q"},
+    modes       = {"tool"},
+    call        = function() currentMode = "linestyle" end
+  },
+  stickyLinestyle = {
+    description = "Sticky linestyle mode",
+    buttons     = {"<Shift>q"},
+    modes       = {"tool"},
+    call        = function()
+      currentMode = "linestyle"
+      sticky = true
+    end
+  },
+  page = {
+    description = "Page mode",
+    buttons     = {"b", "p"},
+    modes       = {"tool"},
+    call        = function() currentMode = "page" end
+  },
+  stickyPage = {
+    description = "Sticky page mode",
+    buttons     = {"<Shift>b", "<Shift>p"},
+    modes       = {"tool"},
+    call        = function()
+      currentMode = "page"
+      sticky = true
+    end
+  },
+  navigation = {
+    description = "Navigation mode",
+    buttons     = {"g"},
+    modes       = {"tool"},
+    call        = function() currentMode = "navigation" end
+  },
+  stickyNavigation = {
+    description = "Sticky navigation mode",
+    buttons     = {"<Shift>g"},
+    modes       = {"tool"},
+    call        = function()
+      currentMode = "navigation"
+      sticky = true
+    end
+  },
+  file = {
+    description = "File mode",
+    buttons     = {"y"},
+    modes       = {"tool"},
+    call        = function() currentMode = "file" end
+  },
+  stickyFile = {
+    description = "Sticky file mode",
+    buttons     = {"<Shift>y"},
+    modes       = {"tool"},
+    call        = function()
+      currentMode = "file"
+      sticky = true
+    end
+  },
+  visual = {
+    description = "Visual mode",
+    buttons     = {"v"},
+    modes       = {"tool"},
+    call        = function() currentMode = "visual" end
+  },
+  stickyVisual = {
+    description = "Sticky visual mode",
+    buttons     = {"<Shift>v"},
+    modes       = {"tool"},
+    call        = function()
+      currentMode = "visual"
+      sticky = true
+    end
+  },
+  resize = {
+    description = "Resize mode",
+    buttons     = {"<Shift>F"},
+    modes       = {"tool"},
+    call        = function() currentMode = "resize" end
+  },
+  audio = {
+    description = "Audio",
+    buttons     = {"at"},
+    modes       = {"tool"},
+    call        = function()
+      playObject()
+      clickPausePlay()
+      currentMode = "audio"
+      sticky = true
+    end
+  },
 
 	-- Various tool mode commands
 	newAfterTool = {
@@ -625,25 +621,51 @@ keybindings = {
 		call = clickOpen,
 	},
 
-	-- Visual
-	lasso = {
-		description = "Select Region",
-		buttons = { "s" },
-		modes = { "visual" },
-		call = clickSelectRegion,
-	},
-	selectRectangle = {
-		description = "Select Rectangle",
-		buttons = { "a", "r" },
-		modes = { "visual" },
-		call = clickSelectRectangle,
-	},
-	selectObject = {
-		description = "Select Object",
-		buttons = { "f", "g" },
-		modes = { "visual" },
-		call = clickSelectObject,
-	},
+  -- Visual
+  lasso = {
+    description = "Select Region",
+    buttons     = {"s"},
+    modes       = {"visual"},
+    call        = clickSelectRegion
+  },
+  selectRectangle = {
+    description = "Select Rectangle",
+    buttons     = {"a", "r"},
+    modes       = {"visual"},
+    call        = clickSelectRectangle
+  },
+  selectObject = {
+    description = "Select Object",
+    buttons     = {"f", "g"},
+    modes       = {"visual"},
+    call        = clickSelectObject
+  },
+
+  -- Audio
+  Pause = {
+    description = "Pause",
+    buttons = {"space"},
+    modes = {"audio"},
+    call = clickPausePlay
+  },
+  Stop = {
+    description = "Stop",
+    buttons = {"Escape"},
+    modes = {"audio"},
+    call = clickStop
+  },
+  SeekForward = {
+    description = "Seek Forward",
+    buttons = {"l"},
+    modes = {"audio"},
+    call = clickSeekForward
+  },
+  SeekBackwards = {
+    description = "Seek Backwards",
+    buttons = {"h"},
+    modes = {"audio"},
+    call = clickSeekBackwards
+  },
 }
 
 -- helper functions
