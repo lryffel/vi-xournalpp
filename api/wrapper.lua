@@ -325,4 +325,13 @@ wrapper.getToolInfo = function(tool)
   return app.getToolInfo(tool)
 end
 
+-- PLACEHOLDER
+wrapper.registerPlaceholder = function(name, description)
+  app.registerPlaceholder(name, description)
+end
+
+wrapper.setPlaceholderValue = function(placeholder, val)
+  app.setPlaceholderValue(placeholder, val)
+end
+
 return wrapper

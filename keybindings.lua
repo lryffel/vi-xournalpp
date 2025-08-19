@@ -14,6 +14,18 @@ local ALL_MODES = {
   'resize',
 }
 
+local function changeMode(mode, stickyValue)
+  state.currentMode = mode
+  if stickyValue ~= nil then
+    state.sticky = stickyValue
+  end
+  local display = state.currentMode
+  if state.sticky then
+    display = display .. ' (sticky)'
+  end
+  api.setPlaceholderValue('vi-mode', display)
+end
+
 --------------------
 -- KEYBINDINGS:   --
 --------------------
@@ -88,8 +100,7 @@ local keybindings = {
     buttons = { 't' },
     modes = ALL_MODES,
     call = function()
-      state.currentMode = 'tool'
-      state.sticky = false
+      changeMode('tool', false)
     end,
   },
   color = {
@@ -97,7 +108,7 @@ local keybindings = {
     buttons = { 'c' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'color'
+      changeMode('color')
     end,
   },
   stickyColor = {
@@ -105,8 +116,7 @@ local keybindings = {
     buttons = { '<Shift>c' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'color'
-      state.sticky = true
+      changeMode('color', true)
     end,
   },
   shape = {
@@ -114,7 +124,7 @@ local keybindings = {
     buttons = { 'a' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'shape'
+      changeMode('shape')
     end,
   },
   stickyShape = {
@@ -122,8 +132,7 @@ local keybindings = {
     buttons = { '<Shift>a' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'shape'
-      state.sticky = true
+      changeMode('shape', true)
     end,
   },
   linestyle = {
@@ -131,7 +140,7 @@ local keybindings = {
     buttons = { 'q' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'linestyle'
+      changeMode('linestyle')
     end,
   },
   stickyLinestyle = {
@@ -139,8 +148,7 @@ local keybindings = {
     buttons = { '<Shift>q' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'linestyle'
-      state.sticky = true
+      changeMode('linestyle', true)
     end,
   },
   page = {
@@ -148,7 +156,7 @@ local keybindings = {
     buttons = { 'b', 'p' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'page'
+      changeMode('page')
     end,
   },
   stickyPage = {
@@ -156,8 +164,7 @@ local keybindings = {
     buttons = { '<Shift>b', '<Shift>p' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'page'
-      state.sticky = true
+      changeMode('page', true)
     end,
   },
   navigation = {
@@ -165,7 +172,7 @@ local keybindings = {
     buttons = { 'g' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'navigation'
+      changeMode('navigation')
     end,
   },
   stickyNavigation = {
@@ -173,8 +180,7 @@ local keybindings = {
     buttons = { '<Shift>g' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'navigation'
-      state.sticky = true
+      changeMode('navigation', true)
     end,
   },
   file = {
@@ -182,7 +188,7 @@ local keybindings = {
     buttons = { 'y' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'file'
+      changeMode('file')
     end,
   },
   stickyFile = {
@@ -190,8 +196,7 @@ local keybindings = {
     buttons = { '<Shift>y' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'file'
-      state.sticky = true
+      changeMode('file', true)
     end,
   },
   visual = {
@@ -199,7 +204,7 @@ local keybindings = {
     buttons = { 'v' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'visual'
+      changeMode('visual')
     end,
   },
   stickyVisual = {
@@ -207,8 +212,7 @@ local keybindings = {
     buttons = { '<Shift>v' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'visual'
-      state.sticky = true
+      changeMode('visual', true)
     end,
   },
   resize = {
@@ -216,7 +220,7 @@ local keybindings = {
     buttons = { '<Shift>F' },
     modes = { 'tool' },
     call = function()
-      state.currentMode = 'resize'
+      changeMode('resize')
     end,
   },
 
@@ -662,4 +666,5 @@ end
 return {
   bindings = keybindings,
   ALL_MODES = ALL_MODES,
+  changeMode = changeMode,
 }

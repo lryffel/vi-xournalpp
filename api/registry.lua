@@ -366,4 +366,12 @@ return {
   getToolInfo = {
     { impl = wrapper.getToolInfo, deps = { 'getToolInfo' } },
   },
+
+  -- PLACEHOLDER
+  registerPlaceholder = {
+    { impl = wrapper.registerPlaceholder, deps = { 'registerPlaceholder' } },
+  },
+  setPlaceholderValue = {
+    { impl = wrapper.setPlaceholderValue, deps = { 'setPlaceholderValue' } },
+  },
 }

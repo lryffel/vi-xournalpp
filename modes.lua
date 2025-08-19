@@ -4,12 +4,13 @@ local state = require('state')
 
 local kb_module = require('keybindings')
 local keybindings = kb_module.bindings
+local changeMode = kb_module.changeMode
 
 local function handle(key)
   for _, binding in pairs(keybindings) do
     if binding.button_set[key] and binding.mode_set[state.currentMode] then
       if state.currentMode ~= 'tool' and not state.sticky then
-        state.currentMode = 'tool'
+        changeMode('tool')
       end
 
       if binding.call then

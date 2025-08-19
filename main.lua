@@ -4,6 +4,7 @@ package.path = script_path .. '?.lua;' .. script_path .. '?/init.lua;' .. packag
 
 local utils = require('utils')
 local log = utils.log
+local api = require('api')
 
 local kb_module = require('keybindings')
 local keybindings = kb_module.bindings
@@ -62,6 +63,8 @@ end
 -- xournalpp require `initUi` as name
 ---@diagnostic disable-next-line: lowercase-global
 function initUi()
+  api.registerPlaceholder('vi-mode', 'Vi Mode Indicator')
+
   local index = 1
   local skipped = {}
 
