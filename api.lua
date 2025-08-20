@@ -255,3 +255,10 @@ end
 function clickPlainBG()
 	app.changeCurrentPageBackground("plain")
 end
+
+function setPlaceholderValue(placeholder, val)
+	-- Only if setPlaceholderValue is available (Xournal++ >= 1.2.8 (or 1.2.7+dev))
+	if app.setPlaceholderValue then
+		app.setPlaceholderValue(placeholder, val)
+	end
+end
