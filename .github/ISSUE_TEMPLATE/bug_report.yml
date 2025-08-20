@@ -1,0 +1,45 @@
+name: Bug Report
+description: File a bug report for vi-xournalpp
+title: "[Bug] "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Bug Report
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      description: What happened? What did you expect?
+      placeholder: Describe the bug here...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: How can we reproduce the bug?
+      placeholder: Step-by-step instructions...
+    validations:
+      required: true
+
+  - type: input
+    id: version
+    attributes:
+      label: Plugin and Xournal++ version
+      description: What version are you using?
+      placeholder: e.g. vi-xournalpp 1.2.7, Xournal++ 1.2.2
+    validations:
+      required: false
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or screenshots
+      description: Paste error messages, logs, or screenshots here.
+      placeholder: Paste logs/screenshots here...
+    validations:
+      required: false

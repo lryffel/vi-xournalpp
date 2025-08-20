@@ -1,0 +1,27 @@
+name: Feature Request
+description: Suggest a new feature for vi-xournalpp
+title: "[Feature] "
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## Feature Request
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What feature do you want?
+      description: Describe the feature and why it would be useful.
+      placeholder: Describe your idea...
+    validations:
+      required: true
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Add any other context, screenshots, or examples.
+      placeholder: More details...
+    validations:
+      required: false
