@@ -1,5 +1,4 @@
 require("api")
-require("colors")
 require("keybindings")
 
 function handle(key)
