@@ -286,6 +286,87 @@ keybindings = {
 		modes = { "resize" },
 		call = clickVeryThick,
 	},
+	-- Colors
+	black = {
+		description = "Black",
+		buttons = { "x" },
+		modes = { "color" },
+		call = function()
+			changeToolColor(blackColor)
+		end,
+	},
+	white = {
+		description = "White",
+		buttons = { "w" },
+		modes = { "color" },
+		call = function()
+			changeToolColor(whiteColor)
+		end,
+	},
+	pink = {
+		description = "Pink",
+		buttons = { "q" },
+		modes = { "color" },
+		call = function()
+			changeToolColor(pinkColor)
+		end,
+	},
+	red = {
+		description = "Red",
+		buttons = { "r" },
+		modes = { "color" },
+		call = function()
+			changeToolColor(redColor)
+		end,
+	},
+	orange = {
+		description = "Orange",
+		buttons = { "o" },
+		modes = { "color" },
+		call = function()
+			changeToolColor(orangeColor)
+		end,
+	},
+	yellow = {
+		description = "Yellow",
+		buttons = { "y" },
+		modes = { "color" },
+		call = function()
+			changeToolColor(yellowColor)
+		end,
+	},
+	green = {
+		description = "Green",
+		buttons = { "g" },
+		modes = { "color" },
+		call = function()
+			changeToolColor(greenColor)
+		end,
+	},
+	cyan = {
+		description = "Cyan",
+		buttons = { "c" },
+		modes = { "color" },
+		call = function()
+			changeToolColor(cyanColor)
+		end,
+	},
+	blue = {
+		description = "Blue",
+		buttons = { "b" },
+		modes = { "color" },
+		call = function()
+			changeToolColor(blueColor)
+		end,
+	},
+	purple = {
+		description = "Purple",
+		buttons = { "p", "a" },
+		modes = { "color" },
+		call = function()
+			changeToolColor(purpleColor)
+		end,
+	},
 
 	-- Shapes
 	ruler = {
@@ -574,35 +655,3 @@ function cleanShape()
 	clickSpline(false)
 	clickFill(false)
 end
-
--- Dynamic color keybindings
-local color_buttons = { "q", "w", "e", "r", "t", "a", "s", "d", "f", "g", "z", "x", "c", "v", "b" }
-local shift_color_buttons = {}
-for _, btn in ipairs(color_buttons) do
-	table.insert(shift_color_buttons, "<Shift>" .. btn)
-end
-
--- Generate color keybindings
-local function setupColorKeybindings()
-	local palette = getColorPallate()
-	for i = 1, #palette do
-		local btn
-		if i <= #color_buttons then
-			btn = color_buttons[i]
-		elseif i <= #color_buttons + #shift_color_buttons then
-			btn = shift_color_buttons[i - #color_buttons]
-		else
-			break -- Don't map more colors than buttons available
-		end
-		keybindings["color_" .. tostring(i)] = {
-			description = "Color " .. tostring(i) .. " (" .. palette[i].name .. ")",
-			buttons = { btn },
-			modes = { "color" },
-			call = function()
-				changeToolColor(palette[i].color)
-			end,
-		}
-	end
-end
-
-setupColorKeybindings()

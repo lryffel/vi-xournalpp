@@ -103,11 +103,6 @@ function clickDashDotted()
 end
 
 -- color
-function getColorPallate()
-	local palette = app.getColorPalette()
-	return palette
-end
-
 function changeToolColor(color)
 	local result = app.changeToolColor({ ["color"] = color, ["selection"] = true })
 
