@@ -108,25 +108,15 @@ end
 
 -- color
 function changeToolColor(color)
-	-- get active tool
 	local activeToolInfo = getToolInfo("active")
-	if not activeToolInfo then return end
-	local toolType = activeToolInfo["type"] or "unknown"
-	-- get the info for that specific tool
-	local toolInfo = getToolInfo(toolType)
-	if not toolInfo then return end
-	-- Check if this tool really has a color property
-	if toolInfo["color"] ~= nil then
-		local ok = pcall(function()
-			app.changeToolColor({ ["color"] = color, ["selection"] = true })
-		end)
-		if ok and toolType ~= "text" then
-			pcall(function()
-				app.changeToolColor({ ["color"] = color, ["tool"] = "TEXT" })
-			end)
-		end
-	else
-		print(toolType .. " does not support color")
+	local toolName = (activeToolInfo and activeToolInfo["type"]) or "unknown tool"
+
+	local ok = pcall(function()
+		app.changeToolColor({ color = color, selection = true })
+	end)
+
+	if not ok then
+		print(toolName .. " does not support color")
 	end
 end
 
