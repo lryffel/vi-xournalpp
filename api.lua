@@ -60,6 +60,10 @@ function clickDelete()
 	app.uiAction({ ["action"] = "ACTION_DELETE" })
 end
 
+function getToolInfo(tool)
+	return app.getToolInfo(tool)
+end
+
 -- shapes
 function clickRuler(enabled)
 	app.uiAction({ ["action"] = "ACTION_RULER", ["enabled"] = enabled })
@@ -104,10 +108,16 @@ end
 
 -- color
 function changeToolColor(color)
-	local result = app.changeToolColor({ ["color"] = color, ["selection"] = true })
+	local activeToolInfo = getToolInfo("active")
+	local toolName = (activeToolInfo and activeToolInfo["type"]) or "unknown tool"
 
-	-- change text tool color too, because (with the default template) the TEX tool also uses that color
-	app.changeToolColor({ ["color"] = color, ["tool"] = "TEXT" })
+	local ok = pcall(function()
+		app.changeToolColor({ color = color, selection = true })
+	end)
+
+	if not ok then
+		print(toolName .. " does not support color")
+	end
 end
 
 -- zooming
