@@ -132,10 +132,12 @@ defined in `api.lua`.
 ### Colors
 
 The colors can be changed in `colors.lua`.
-They require RGB like so:
+
+- For versions **≤ 1.2.2**, you must define colors manually here.  
+- For newer versions, it defaults to Xournal++’s current palette (this method does not work).  
 
 ```lua
-yellowColor = 0xe9f23a
+{ name = "Yellow",   color = 0xf1fa8c, buttons = { "y" } }
 ```
 
 ## Extension

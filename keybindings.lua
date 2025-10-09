@@ -1,5 +1,7 @@
 -- require "modes"
 require("api")
+local colors = require("colors")
+local static_colors = colors.static_colors
 
 ALL_MODES = {
 	"tool",
@@ -285,87 +287,6 @@ keybindings = {
 		buttons = { "g" },
 		modes = { "resize" },
 		call = clickVeryThick,
-	},
-	-- Colors
-	black = {
-		description = "Black",
-		buttons = { "x" },
-		modes = { "color" },
-		call = function()
-			changeToolColor(blackColor)
-		end,
-	},
-	white = {
-		description = "White",
-		buttons = { "w" },
-		modes = { "color" },
-		call = function()
-			changeToolColor(whiteColor)
-		end,
-	},
-	pink = {
-		description = "Pink",
-		buttons = { "q" },
-		modes = { "color" },
-		call = function()
-			changeToolColor(pinkColor)
-		end,
-	},
-	red = {
-		description = "Red",
-		buttons = { "r" },
-		modes = { "color" },
-		call = function()
-			changeToolColor(redColor)
-		end,
-	},
-	orange = {
-		description = "Orange",
-		buttons = { "o" },
-		modes = { "color" },
-		call = function()
-			changeToolColor(orangeColor)
-		end,
-	},
-	yellow = {
-		description = "Yellow",
-		buttons = { "y" },
-		modes = { "color" },
-		call = function()
-			changeToolColor(yellowColor)
-		end,
-	},
-	green = {
-		description = "Green",
-		buttons = { "g" },
-		modes = { "color" },
-		call = function()
-			changeToolColor(greenColor)
-		end,
-	},
-	cyan = {
-		description = "Cyan",
-		buttons = { "c" },
-		modes = { "color" },
-		call = function()
-			changeToolColor(cyanColor)
-		end,
-	},
-	blue = {
-		description = "Blue",
-		buttons = { "b" },
-		modes = { "color" },
-		call = function()
-			changeToolColor(blueColor)
-		end,
-	},
-	purple = {
-		description = "Purple",
-		buttons = { "p", "a" },
-		modes = { "color" },
-		call = function()
-			changeToolColor(purpleColor)
-		end,
 	},
 
 	-- Shapes
@@ -654,4 +575,94 @@ function cleanShape()
 	clickEllipse(false)
 	clickSpline(false)
 	clickFill(false)
+end
+
+-- Color button layouts
+local LAYOUTS = {
+	mnemonic = {
+		"x", -- black
+		"h", -- green
+		"c", -- light blue (cyan)
+		"f", -- light green
+		"b", -- blue
+		"d", -- gray
+		"r", -- red
+		"q", -- magenta (pinQ)
+		"e", -- orange
+		"y", -- yellow
+		"w", -- white
+	},
+	grid = {
+		"q", "w", "e", "r",
+		"a", "s", "d", "f",
+		"z", "x", "c", "v"
+	}
+}
+
+-- Choose layout manually here before starting Xournal++
+local use_mnemonic_layout = true
+local color_buttons = use_mnemonic_layout and LAYOUTS.mnemonic or LAYOUTS.grid
+
+local shift_color_buttons = {}
+
+-- Generate color keybindings
+local function setupColorKeybindings()
+	-- Generate shift keys for current layout
+	shift_color_buttons = {}
+	for _, btn in ipairs(color_buttons) do
+		table.insert(shift_color_buttons, "<Shift>" .. btn)
+	end
+
+	local palette = nil
+	local ok = pcall(function()
+		palette = getColorPallate()
+	end)
+
+	if ok and type(palette) == "table" and #palette > 0 then
+		for i = 1, math.min(#palette, #color_buttons + #shift_color_buttons) do
+			local btn = i <= #color_buttons and color_buttons[i] or shift_color_buttons[i - #color_buttons]
+			keybindings["color_" .. tostring(i)] = {
+				description = "Color " .. tostring(i) .. " (" .. palette[i].name .. ")",
+				buttons = { btn },
+				modes = { "color" },
+				call = function()
+					changeToolColor(palette[i].color)
+				end,
+			}
+		end
+
+		-- Map <Ctrl>r to refresh color keybindings
+		keybindings.refreshColors = {
+			description = "Refresh color keybindings",
+			buttons = { "<Ctrl>r" },
+			modes = { "color" },
+			call = function()
+				refreshColorKeybindings()
+			end,
+		}
+	else
+		for i, entry in ipairs(static_colors) do
+			keybindings[entry.name:lower()] = {
+				description = entry.name,
+				buttons = entry.buttons,
+				modes = { "color" },
+				call = function()
+					changeToolColor(entry.color)
+				end,
+			}
+		end
+	end
+end
+
+setupColorKeybindings()
+
+-- Refresh color keybindings (removes old color mappings and regenerates)
+function refreshColorKeybindings()
+	-- Remove dynamic color keybindings
+	for k in pairs(keybindings) do
+		if k:match("^color_") or (keybindings[k].modes and keybindings[k].modes[1] == "color") then
+			keybindings[k] = nil
+		end
+	end
+	setupColorKeybindings()
 end
