@@ -4,6 +4,11 @@ require("modes")
 f = {}
 
 function initUi()
+	-- Register placeholder only works in Xournal++ >= 1.2.8 (or 1.2.7+dev)
+	if app.registerPlaceholder then
+		app.registerPlaceholder("vi-mode", "Vi Mode Indicator")
+	end
+
 	index = 1
 	for _, binding in pairs(keybindings) do
 		for _, button in pairs(binding.buttons) do
