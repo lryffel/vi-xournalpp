@@ -97,8 +97,7 @@ keybindings = {
 		buttons = { "t" },
 		modes = ALL_MODES,
 		call = function()
-			currentMode = "tool"
-			sticky = false
+			changeMode("tool", false)
 		end,
 	},
 	color = {
@@ -106,7 +105,7 @@ keybindings = {
 		buttons = { "c" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "color"
+			changeMode("color")
 		end,
 	},
 	stickyColor = {
@@ -114,8 +113,7 @@ keybindings = {
 		buttons = { "<Shift>c" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "color"
-			sticky = true
+			changeMode("color", true)
 		end,
 	},
 	shape = {
@@ -123,7 +121,7 @@ keybindings = {
 		buttons = { "a" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "shape"
+			changeMode("shape")
 		end,
 	},
 	stickyShape = {
@@ -131,8 +129,7 @@ keybindings = {
 		buttons = { "<Shift>a" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "shape"
-			sticky = true
+			changeMode("shape", true)
 		end,
 	},
 	linestyle = {
@@ -140,7 +137,7 @@ keybindings = {
 		buttons = { "q" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "linestyle"
+			changeMode("linestyle")
 		end,
 	},
 	stickyLinestyle = {
@@ -148,8 +145,7 @@ keybindings = {
 		buttons = { "<Shift>q" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "linestyle"
-			sticky = true
+			changeMode("linestyle", true)
 		end,
 	},
 	page = {
@@ -157,7 +153,7 @@ keybindings = {
 		buttons = { "b", "p" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "page"
+			changeMode("page")
 		end,
 	},
 	stickyPage = {
@@ -165,8 +161,7 @@ keybindings = {
 		buttons = { "<Shift>b", "<Shift>p" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "page"
-			sticky = true
+			changeMode("page", true)
 		end,
 	},
 	navigation = {
@@ -174,7 +169,7 @@ keybindings = {
 		buttons = { "g" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "navigation"
+			changeMode("navigation")
 		end,
 	},
 	stickyNavigation = {
@@ -182,8 +177,7 @@ keybindings = {
 		buttons = { "<Shift>g" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "navigation"
-			sticky = true
+			changeMode("navigation", true)
 		end,
 	},
 	file = {
@@ -191,7 +185,7 @@ keybindings = {
 		buttons = { "y" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "file"
+			changeMode("file")
 		end,
 	},
 	stickyFile = {
@@ -199,8 +193,7 @@ keybindings = {
 		buttons = { "<Shift>y" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "file"
-			sticky = true
+			changeMode("file", true)
 		end,
 	},
 	visual = {
@@ -208,7 +201,7 @@ keybindings = {
 		buttons = { "v" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "visual"
+			changeMode("visual")
 		end,
 	},
 	stickyVisual = {
@@ -216,8 +209,7 @@ keybindings = {
 		buttons = { "<Shift>v" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "visual"
-			sticky = true
+			changeMode("visual", true)
 		end,
 	},
 	resize = {
@@ -225,7 +217,7 @@ keybindings = {
 		buttons = { "<Shift>F" },
 		modes = { "tool" },
 		call = function()
-			currentMode = "resize"
+			changeMode("resize")
 		end,
 	},
 
@@ -654,4 +646,16 @@ function cleanShape()
 	clickEllipse(false)
 	clickSpline(false)
 	clickFill(false)
+end
+
+function changeMode(mode, stickyValue)
+	currentMode = mode
+	if stickyValue ~= nil then
+		sticky = stickyValue
+	end
+	local display = currentMode
+	if sticky then
+		display = display .. " (sticky)"
+	end
+	setPlaceholderValue("vi-mode", display)
 end
