@@ -64,6 +64,10 @@ function getToolInfo(tool)
 	return app.getToolInfo(tool)
 end
 
+function playObject()
+  app.uiAction({["action"] = "ACTION_TOOL_PLAY_OBJECT"})
+end
+
 -- shapes
 function clickRuler(enabled)
 	app.uiAction({ ["action"] = "ACTION_RULER", ["enabled"] = enabled })
@@ -264,4 +268,21 @@ end
 
 function clickPlainBG()
 	app.changeCurrentPageBackground("plain")
+end
+
+-- audio
+function clickPausePlay()
+  app.uiAction({["action"] = "ACTION_AUDIO_PAUSE_PLAYBACK"})
+end
+
+function clickStop()
+  app.uiAction({["action"] = "ACTION_AUDIO_STOP_PLAYBACK"})
+end
+
+function clickSeekForward()
+  app.uiAction({["action"] = "ACTION_AUDIO_SEEK_FORWARDS"})
+end
+
+function clickSeekBackwards()
+  app.uiAction({["action"] = "ACTION_AUDIO_SEEK_BACKWARDS"})
 end
