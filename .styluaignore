@@ -1,0 +1,7 @@
+LICENSE
+*.md
+*.yaml
+*.yml
+.github/**
+.pre-commit-config.yaml
+luapi.def.lua
