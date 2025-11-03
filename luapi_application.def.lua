@@ -1,5 +1,5 @@
 -- Xournal++ Lua Plugin API Type Definitions
--- 
+--
 -- This file provides IntelliSense, type checking, and documentation for the Xournal++ Lua API.
 -- It is used by the Lua Language Server for IDE features and is NOT loaded at runtime.
 -- Xournal++ provides the actual 'app' object when the plugin runs.
@@ -15,30 +15,30 @@
 app = {}
 --- Renames file 'from' to file 'to' in the file system.
 --- Overwrites 'to' if it already exists.
---- 
+---
 --- @param from string
 --- @param to string
 --- @return number|nil Returns 1 on success, and (nil, message) on failure.
 --- @return string
---- 
+---
 --- Example:
 ---   assert(app.glib_rename("path/to/foo", "other/bar"))
---- 
+---
 --- Preferred to os.rename() because it works across
 --- partitions. Uses glib's rename function.
---- 
+---
 --- Returns 1 on success, and (nil, message) on failure.
 function app.glib_rename(from, to) end
 
 --- THIS FUNCTION IS DEPRECATED AND WILL BE REMOVED SOON. Use applib_fileDialogSave() instead.
---- 
+---
 --- @deprecated
 --- Create a 'Save As' native dialog and return as a string
 --- the filepath of the location the user chose to save.
---- 
+---
 --- @param filename string suggestion for a filename, defaults to "Untitled"
 --- @return string path of the selected location
---- 
+---
 --- Examples:
 ---   local filename = app.saveAs() -- defaults to suggestion "Untitled"
 ---   local filename = app.saveAs("foo") -- suggests "foo" as filename
@@ -47,10 +47,10 @@ function app.saveAs(filename) end
 --- Create a 'Save As' dialog and once the user has chosen the filepath of the location to save
 --- calls the specified callback function to which it passes the filepath or the empty string, if the
 --- operation was cancelled.
---- 
+---
 --- @param cb string name of the callback function(path:string) to call when a file has been chosen
 --- @param filename string suggestion for a filename, defaults to "Untitled"
---- 
+---
 --- Examples:
 ---   app.fileDialogSave("cb") -- defaults to suggestion "Untitled" in current working directory
 ---   app.fileDialogSave("cb", "foo") -- suggests "foo" as filename in current working directory
@@ -58,14 +58,14 @@ function app.saveAs(filename) end
 function app.fileDialogSave(cb, filename) end
 
 --- THIS FUNCTION IS DEPRECATED AND WILL BE REMOVED SOON. Use applib_fileDialogOpen() instead.
---- 
+---
 --- @deprecated
 --- Create a 'Open File' native dialog and return as a string
 --- the filepath the user chose to open.
---- 
+---
 --- @param types string[] array of the different allowed extensions e.g. {'\*.bmp', '\*.png'}
 --- @returns string path of the selected location
---- 
+---
 --- Examples:
 ---   path = app.getFilePath({})
 ---   path = app.getFilePath({'*.bmp', '*.png'})
@@ -73,55 +73,55 @@ function app.getFilePath(types) end
 
 --- Create an 'Open File' dialog and when the user has chosen a filepath
 --- call a callback function whose sole argument is the filepath.
---- 
+---
 --- @param cb string name of the callback function(path:string) to call when a file was chosen
 --- @param types string[] array of the different allowed extensions e.g. {'\*.bmp', '\*.png'}
---- 
+---
 --- Examples:
 ---   app.fileDialogOpen("cb", {})
 ---   app.fileDialogOpen("cb", {'*.bmp', '*.png'})
 function app.fileDialogOpen(cb, types) end
 
 --- THIS FUNCTION IS DEPRECATED AND WILL BE REMOVED SOON. Use applib_openDialog() instead.
---- 
+---
 --- @deprecated
 --- Example: local result = app.msgbox("Test123", {[1] = "Yes", [2] = "No"})
 --- Pops up a message box with two buttons "Yes" and "No" and returns 1 for yes, 2 for no
 function app.msgbox() end
 
 --- Open a dialog with arbitrary text and buttons (with callbacks)
---- 
+---
 --- @param message string
 --- @param options table<integer, string> integer to button texts
 --- @param cb string name of the callback function(button:integer) to call on user interaction
 --- @param error boolean is this message an error (optional)
---- 
+---
 --- Example 1: app.openDialog("Test123", {[1] = "Yes", [2] = "No"}, "cb", false)
 ---   or       app.openDialog("Test123", {"Yes", "No"}, "cb")
 --- Pops up a message box with two buttons "Yes" and "No" and executed function "cb" whose single parameter is the number
 --- corresponding to the button the user clicked.
---- 
+---
 --- If the optional boolean parameter is true, the dialog is treated as an error message
 --- Example 2: app.openDialog("Invalid parameter", {"Ok"}, "", true)
---- 
+---
 --- Warning: the callback function is never called if the dialog is closed without pressing one of the custom buttons.
 function app.openDialog(message, options, cb, error) end
 
 --- Allow to register menupoints and toolbar buttons. This needs to be called from initUi
---- 
+---
 --- @param opts {menu: string, callback: string, toolbarID: string, mode:integer, accelerator:string} options (`mode`,
 ---  `toolbarID` and `accelerator` are optional)
 --- @return {menuId:integer}
---- 
+---
 --- Example 1: app.registerUi({["menu"] = "HelloWorld", callback="printMessage", mode=1, accelerator="<Control>a"})
 --- registers a menupoint with name "HelloWorld" executing a function named "printMessage", in mode 1,
 --- which can be triggered via the "<Control>a" keyboard accelerator
---- 
+---
 --- Example 2: app.registerUi({callback ="blueDashedPen", toolbarId="CUSTOM_PEN_1", iconName="bluePenIcon"})
 --- registers a toolbar icon named "bluePenIcon" executing a function named "blueDashedPen", which can be added
 --- to a toolbar via toolbar customization or by editing the toolbar.ini file using the name "Plugin::CUSTOM_PEN_1"
 --- Note that in toolbar.ini the string "Plugin::" must always be prepended to the toolbarId specified in the plugin
---- 
+---
 --- The mode and accelerator are optional. When specifying the mode, the callback function should have one parameter
 ---    that receives the mode. This is useful for callback functions that are shared among multiple menu entries.
 function app.registerUi(opts) end
@@ -132,7 +132,7 @@ function app.registerUi(opts) end
 --- table of constants for consistency between different versions of Xournal++
 --- @param action Action
 --- @param state any
---- 
+---
 --- Example 1: app.changeActionState("select-tool",  app.C.Tool_text)
 --- Example 2: app.changeActionState("set-layout-vertical", false)
 --- Example 3: app.changeActionState("set-columns-or-rows", -3)      # 3 rows
@@ -147,7 +147,7 @@ function app.changeActionState(action, state) end
 --- be compared to the app.C table of constants for consistency between different
 --- versions of Xournal++
 --- @param action Action
---- 
+---
 --- Example 1: if app.getActionState("select-tool") == app.C.Tool_text then
 ---               print("Currently the text tool is selected")
 ---            end
@@ -164,7 +164,7 @@ function app.getActionState(action) end
 --- table of constants for consistency between different versions of Xournal++
 --- @param action Action
 --- @param state nil | any
---- 
+---
 --- Example 1: app.activateAction("arrange-selection-order", app.C.OrderChange.bringForward)
 --- Example 2: app.activateAction("setsquare")
 --- Example 3: app.activateAction("tool-fill")
@@ -172,99 +172,99 @@ function app.activateAction(action, state) end
 
 --- THIS FUNCTION IS DEPRECATED AND WILL BE REMOVED SOON. Use applib_changeActionState or
 --- applib_activateAction instead.
---- 
+---
 --- @deprecated
 --- Execute an UI action (usually internally called from Toolbar / Menu)
 --- The argument consists of a Lua table with 3 keys: "action", "group" and "enabled"
 --- The key "group" is currently only used for debugging purpose and can safely be omitted.
 --- The key "enabled" is true by default.
---- 
+---
 --- @param opts {action: string, enabled:boolean} options (`enabled` is `true` by default)
---- 
+---
 --- Example 1: app.uiAction({["action"] = "ACTION_PASTE"})
 --- pastes the clipboard content into the document
---- 
+---
 --- Example 2: app.uiAction({["action"] = "ACTION_TOOL_DRAW_ELLIPSE", ["enabled"] = false})
 --- turns off the Ellipse drawing type
 function app.uiAction(opts) end
 
 --- THIS FUNCTION IS DEPRECATED AND WILL BE REMOVED SOON. Use applib_activateAction instead.
---- 
+---
 --- @deprecated
 --- Execute action from sidebar menu
---- 
+---
 --- @param action string the desired action
---- 
+---
 --- Example: app.sidebarAction("MOVE_DOWN")
 --- moves down the current page or layer, depending on which sidebar tab is selected
 function app.sidebarAction(action) end
 
 --- THIS FUNCTION IS DEPRECATED AND WILL BE REMOVED SOON. No substitute needed.
---- 
+---
 --- @deprecated
 --- Get the index of the currently active sidebar-page.
---- 
+---
 --- @return integer pageNr pageNr of the sidebar page
---- 
+---
 --- Example: app.getSidebarPageNo() -- returns e.g. 1
 function app.getSidebarPageNo() end
 
 --- THIS FUNCTION IS DEPRECATED AND WILL BE REMOVED SOON. No substitute needed.
---- 
+---
 --- @deprecated
 --- Set the currently active sidebar-page by its index.
---- 
+---
 --- @param pageNr integer pageNr of the sidebar page
---- 
+---
 --- Look at src/core/gui/sidebar/Sidebar.cpp to find out which index corresponds to which page (e.g. currently 1 is the
 --- page with the TOC/index if available). Note that indexing the sidebar-pages starts at 1 (as usual in lua).
---- 
+---
 --- Example: app.setSidebarPageNo(3) -- sets the sidebar-page to preview Layer
 function app.setSidebarPageNo(pageNr) end
 
 --- THIS FUNCTION IS DEPRECATED AND WILL BE REMOVED SOON. Use applib_activateAction instead.
---- 
+---
 --- @deprecated
 --- Execute action from layer controller
---- 
+---
 --- @param action string the desired action
---- 
+---
 --- Example: app.layerAction("ACTION_DELETE_LAYER")
 --- deletes the current layer
 function app.layerAction(action) end
 
 --- Show the floating toolbox at the specified coordinates relative to the main window
---- 
+---
 --- @param x integer x coordinate relative to main window
 --- @param y integer y coordinate relative to main window
---- 
+---
 --- Example: app.showFloatingToolbox(100, 200)
 --- Shows the floating toolbox at position (100, 200) relative to the main window
---- 
+---
 --- Note: Coordinates are automatically clamped to window bounds.
 function app.showFloatingToolbox(x, y) end
 
 --- Given a table containing a series of splines, draws a batch of strokes on the canvas.
 --- Expects a table of tables containing eight coordinate pairs, along with attributes of the stroke.
---- 
+---
 --- @param opts {splines:{coordinates:number[], tool:string, width:number, color:integer, fill:number,
 --- linestyle:string}[], allowUndoRedoAction:string}
 --- @return lightuserdata[] references to the created strokes
---- 
+---
 --- Required Arguments: splines
 --- Optional Arguments: pressure, tool, width, color, fill, lineStyle
---- 
+---
 --- If optional arguments are not provided, the specified tool settings are used.
 --- If the tool is not provided, the current pen settings are used.
 --- The only tools supported are Pen and Highlighter.
---- 
+---
 --- The function expects 8 points per spline segment. Due to the nature of cubic
 --- splines, you must pass your points in a repeating pattern:
 --- startX, startY, ctrl1X, ctrl1Y, ctrl2X, ctrl2Y, endX, endY, startX, startY, ...
---- 
+---
 --- The function checks that the length of the coordinate table is divisible by eight, and will throw
 --- an error if it is not.
---- 
+---
 --- Example: local refs = app.addSplines({
 ---            ["splines"] = { -- The outer table is a table of strokes
 ---                ["coordinates"] = { -- Each inner table is a coord stream that represents SplineSegments that can be
@@ -295,23 +295,23 @@ function app.addSplines(opts) end
 --- Expects three tables of equal length: one for X, one for Y, and one for
 --- stroke pressure, along with attributes of the stroke. Each stroke has
 --- attributes handled individually.
---- 
+---
 --- @param opts {strokes:{X:number[], Y:number[], pressure:number[], tool:string, width:number, color:integer,
 --- fill:number, linestyle:string}[], allowUndoRedoAction:string}
 --- @return lightuserdata[] references to the created strokes
---- 
+---
 --- Required Arguments: X, Y
 --- Optional Arguments: pressure, tool, width, color, fill, lineStyle
---- 
+---
 --- If optional arguments are not provided, the specified tool settings are used.
 --- If the tool is not provided, the current pen settings are used.
 --- The only tools supported are Pen and Highlighter.
---- 
+---
 --- The function checks for consistency among table lengths, and throws an
 --- error if there is a discrepancy
---- 
+---
 --- Example:
---- 
+---
 --- local refs = app.addStrokes({
 ---     ["strokes"] = { -- The outer table is a table of strokes
 ---         {   -- Inside a stroke are three tables of equivalent length that represent a series of points
@@ -352,25 +352,25 @@ function app.addSplines(opts) end
 function app.addStrokes(opts) end
 
 --- Adds textboxes as specified to the current layer.
---- 
+---
 --- Global parameters:
 ---   - texts table: array of text-parameter-tables
 ---   - allowUndoRedoAction string: Decides how the change gets introduced into the undoRedo action list "individual",
 --- "grouped" or "none"
---- 
+---
 --- @param opts {texts:{text:string, font:{name:string, size:number}, color:integer, x:number, y:number}[],
 --- allowUndoRedoAction:string}
 --- @return lightuserdata[] references to the created text elements
---- 
+---
 --- Parameters per textbox:
 ---   - text string: content of the textbox (required)
 ---   - font table {name string, size number} (default: currently configured font/size from the settings)
 ---   - color integer: RGB hex code for the text-color (default: color of text tool)
 ---   - x number: x-position of the box (upper left corner) (required)
 ---   - y number: y-position of the box (upper left corner) (required)
---- 
+---
 --- Example:
---- 
+---
 --- local refs = app.addTexts{texts={
 ---   {
 ---     text="Hello World",
@@ -391,15 +391,15 @@ function app.addTexts(opts) end
 
 --- Returns a list of lua table of the texts (from current selection / current layer).
 --- Is mostly inverse to app.addTexts (except getTexts will also retrieve the width/height of the textbox)
---- 
+---
 --- @param type string "selection" or "layer"
 --- @return {text:string, font:{name:string, size:number}, color:integer, x:number, y:number, width:number,
 --- height:number, ref:lightuserdata}[] texts
---- 
+---
 --- Required argument: type ("selection" or "layer")
---- 
+---
 --- Example: local texts = app.getTexts("layer")
---- 
+---
 --- possible return value:
 --- {
 ---   {
@@ -429,20 +429,20 @@ function app.addTexts(opts) end
 ---     ref = userdata: 0x5f644c0701e8
 ---   },
 --- }
---- 
+---
 function app.getTexts(type) end
 
 --- Puts a Lua Table of the Strokes (from the selection tool / selected layer) onto the stack.
 --- Is inverse to app.addStrokes
---- 
+---
 --- @param type string "selection" or "layer"
 --- @return {x:number[], y:number[], pressure:number[], tool:string, width:number, color:integer, fill:number,
 --- linestyle:string, ref:lightuserdata}[] strokes
---- 
+---
 --- Required argument: type ("selection" or "layer")
---- 
+---
 --- Example: local strokes = app.getStrokes("selection")
---- 
+---
 --- possible return value:
 --- {
 ---         {   -- Inside a stroke are three tables of equivalent length that represent a series of points
@@ -483,22 +483,22 @@ function app.getStrokes(type) end
 
 --- Notifies program of any updates to the working document caused
 --- by the API.
---- 
+---
 --- Example: app.refreshPage()
 function app.refreshPage() end
 
 --- Change page background of current page
---- 
+---
 --- @param background string backgroundType (e.g. "graph")
---- 
+---
 --- Example: app.changeCurrentPageBackground("graph")
 --- changes the page background of the current page to graph paper
 function app.changeCurrentPageBackground(background) end
 
 --- Query all colors of the current palette.
---- 
+---
 --- @return {color: integer, name: string}[] options
---- 
+---
 --- Example: palette = app.getColorPalette()
 --- possible return value:
 --- {
@@ -506,17 +506,17 @@ function app.changeCurrentPageBackground(background) end
 ---     [2] = {color = 0x000000, name = "black" },
 ---     [3] = {color = 0xdc8a78, name = "Rosewater" },
 --- }
---- 
+---
 function app.getColorPalette() end
 
 --- Change color of a specified tool or of the current tool
---- 
+---
 --- @param opts {color: integer, tool: string, selection: boolean} options (`selection=true` -> new color applies to
 --- active selection as well, `tool=nil` (unset) -> currently active tool is being used)
---- 
+---
 --- Example 1: app.changeToolColor({["color"] = 0xff00ff, ["tool"] = "PEN"})
 --- changes the color of the pen tool to violet without applying this change to the current selection
---- 
+---
 --- Example 2: app.changeToolColor({["color"] = 0xff0000, ["selection"] = true })
 --- changes the color of the current tool to red and also applies it to the current selection if there is one
 function app.changeToolColor(opts) end
@@ -524,24 +524,24 @@ function app.changeToolColor(opts) end
 --- Select Background Pdf Page for Current Page
 --- First argument is an integer (page number) and the second argument is a boolean (isRelative)
 --- specifying whether the page number is relative to the current pdf page or absolute
---- 
+---
 --- @param pageNr integer page-nunmber
 --- @param relative boolean should `pageNr` be interpreted relative?
---- 
+---
 --- Example 1: app.changeBackgroundPdfPageNr(1, true)
 --- changes the pdf page to the next one (relative mode)
---- 
+---
 --- Example 2: app.changeBackgroundPdfPageNr(7, false)
 --- changes the page background to the 7th pdf page (absolute mode)
 function app.changeBackgroundPdfPageNr(pageNr, relative) end
 
 --- Returns a table encoding all info on the chosen tool (active, pen, highlighter, eraser or text) in a Lua table.
---- 
+---
 --- @param tool string tool to get the information for
 --- @return {} info varies a lot depending on the tool
---- 
+---
 --- The Lua table will be of one of the following shapes
---- 
+---
 --- for pen:
 --- {
 ---   "size" = string
@@ -551,9 +551,9 @@ function app.changeBackgroundPdfPageNr(pageNr, relative) end
 ---   "drawingType" = string
 ---   "lineStyle" = string
 --- }
---- 
+---
 --- See /src/control/ToolEnums.cpp for possible values of "size".
---- 
+---
 --- for text:
 --- {
 ---   "font" = {
@@ -562,7 +562,7 @@ function app.changeBackgroundPdfPageNr(pageNr, relative) end
 ---   }
 ---   "color" = integer
 --- }
---- 
+---
 --- for active tool:
 --- {
 ---   "type" = string
@@ -576,17 +576,17 @@ function app.changeBackgroundPdfPageNr(pageNr, relative) end
 ---   "lineStyle" = string
 ---   "thickness" = number
 --- }
---- 
+---
 --- See /src/control/ToolEnums.cpp for possible values of "type", "size", "drawingType" and "lineStyle".
---- 
+---
 --- for eraser:
 --- {
 ---   "type" = string
 ---   "size" = string
 --- }
---- 
+---
 --- See /src/control/ToolEnums.cpp for possible values of "type" and "size".
---- 
+---
 --- for highlighter:
 --- {
 ---   "size" = string
@@ -595,9 +595,9 @@ function app.changeBackgroundPdfPageNr(pageNr, relative) end
 ---   "fillOpacity" = integer (0 to 255)
 ---   "drawingType" = string
 --- }
---- 
+---
 --- See /src/control/ToolEnums.cpp for possible values of "size".
---- 
+---
 --- for seiection:
 --- {
 ---   -- bounding box as drawn in the UI (includes padding on all sides)
@@ -625,7 +625,7 @@ function app.changeBackgroundPdfPageNr(pageNr, relative) end
 ---   "rotation" = number
 ---   "isRotationSupported" = bool
 --- }
---- 
+---
 --- Example 1: local penInfo = app.getToolInfo("pen")
 ---            local size = penInfo["size"]
 ---            local opacity = penInfo["fillOpacity"]
@@ -633,26 +633,26 @@ function app.changeBackgroundPdfPageNr(pageNr, relative) end
 --- Example 2: local font = app.getToolInfo("text")["font"]
 ---            local fontname = font["name"]
 ---            local fontsize = font["size"]
---- 
+---
 --- Example 3: local color = app.getToolInfo("text")["color"]
 ---            local red = color >> 16 & 0xff
 ---            local green = color >> 8 & 0xff
 ---            local blue = color & 0xff
---- 
+---
 --- Example 4: local activeToolInfo = app.getToolInfo("active")
 ---            local thickness = activeToolInfo["thickness"]
 ---            local drawingType = activeToolInfo["drawingType"]
---- 
+---
 --- Example 5: local eraserInfo = app.getToolInfo("eraser")
 ---            local type = eraserInfo["type"]
 ---            local size = eraserInfo["size"]
 ---            local sizeName = size["name"]
 ---            local thickness = size["value"]
---- 
+---
 --- Example 6: local highlighterInfo = app.getToolInfo("highlighter")
 ---            local sizeName = highlighterInfo["size"]["name"]
 ---            local opacity = highlighterInfo["fillOpacity"]
---- 
+---
 --- Example 7: local selectionInfo = app.getToolInfo("selection")
 ---            local rotation = selectionInfo["rotation"]
 ---            local boundingX = selectionInfo["boundingBox"]["x"]
@@ -660,12 +660,12 @@ function app.changeBackgroundPdfPageNr(pageNr, relative) end
 function app.getToolInfo(tool) end
 
 --- Returns a table encoding the document structure in a Lua table.
---- 
+---
 --- @return {pages:{pageWidth:number, pageHeight:number, isAnnotated:boolean, pageTypeFormat:string,
 --- pageTypeConfig:string, backgroundColor:integer, pdfBackgroundPageNo:integer, layers:{isVisible:boolean,
 --- isAnnotated:boolean}[], currentLayer:integer}[], currentPage:integer, pdfBackgroundFilename:string,
 --- xoppFilename:string}
---- 
+---
 --- The shape of the returned Lua table will be:
 --- {
 ---   "pages" = {
@@ -695,170 +695,170 @@ function app.getToolInfo(tool) end
 ---   "pdfBackgroundFilename" = string (empty if there is none)
 ---   "xoppFilename" = string (empty if there is none)
 --- }
---- 
+---
 --- Example: local docStructure = app.getDocumentStructure()
 function app.getDocumentStructure() end
 
 --- Scrolls to the page specified relatively or absolutely (by default)
 --- The page number is clamped to the range between the first and last page
---- 
+---
 --- @param page integer (automatically clamped)
 --- @param relative boolean
---- 
+---
 --- Example 1: app.scrollToPage(1, true)
 --- scrolls to the next page (relative mode)
---- 
+---
 --- Example 2: app.scrollToPage(10)
 --- scrolls to page 10 (absolute mode)
 function app.scrollToPage(page, relative) end
 
 --- Scrolls to the position on the selected page specified relatively (by default) or absolutely
---- 
+---
 --- @param x number
 --- @param y number
 --- @param relative boolean
---- 
+---
 --- Example 1: app.scrollToPos(20,10)
 --- scrolls 20pt right and 10pt down (relative mode)
---- 
+---
 --- Example 2: app.scrollToPos(200, 50, false)
 --- scrolls to page position 200pt right and 50pt down from the left page corner  (absolute mode)
 function app.scrollToPos(x, y, relative) end
 
 --- Obtains the label of the specified page in the pdf background.
---- 
+---
 --- @param page integer
 --- @return string|nil Returns the label on success and (nil, message) if page number is out of range.
 --- @return string
---- 
+---
 --- Example 1: local label = app.getPageLabel(10)
 ---  ' obtains the page label of page 10 in the background pdf
 function app.getPageLabel(page) end
 
 --- Sets the current page as indicated (without scrolling)
 --- The page number passed is clamped to the range between first page and last page
---- 
+---
 --- @param pageNr integer (automatically clamped)
---- 
+---
 --- Example: app.setCurrentPage(1)
 --- makes the first page the new current page
 function app.setCurrentPage(pageNr) end
 
 --- Sets the width and height of the current page in pt = 1/72 inch either relatively or absolutely (by default)
---- 
+---
 --- @param width number
 --- @param height number
 --- @param relative boolean
---- 
+---
 --- Example 1: app.setPageSize(595.275591, 841.889764)
 --- makes the current page have standard (A4 paper) width and height (absolute mode)
---- 
+---
 --- Example 2: app.setPageSize(0, 14.17*6, true)
 --- adds 14.17*6 pt = 3cm to the height of the page (relative mode)
 function app.setPageSize(width, height, relative) end
 
 --- Sets the current layer of the current page as indicated and updates visibility if specified (by default it does not)
 --- Displays an error message, if the selected layer does not exist
---- 
+---
 --- @param layerNr integer number of the (non-background) layer
 --- @param change_visibility boolean true -> makes all layers up to the selected one visible, all others invisible
---- 
+---
 --- Example 1: app.setCurrentLayer(2, true)
 --- makes the second (non-background) layer the current layer and makes layers 1, 2 and the background layer visible, the
 --- others hidden
---- 
+---
 --- Example 2: app.setCurrentLayer(2, false)
 --- makes the second (non-background) layer the current layer and does not change visibility
 function app.setCurrentLayer(layerNr, change_visibility) end
 
 --- Sets the visibility of the current layer
---- 
+---
 --- @param visible boolean
---- 
+---
 --- Example: app.setLayerVisibility(true)
 --- makes the current layer visible
 function app.setLayerVisibility(visible) end
 
 --- Sets currently selected layer's name.
---- 
+---
 --- @param name string
---- 
+---
 --- Example: app.setCurrentLayerName("Custom name 1")
 --- Changes current layer name to "Custom name 1"
 function app.setCurrentLayerName(name) end
 
 --- Sets background name.
---- 
+---
 --- @param name string
---- 
+---
 --- Example: app.setBackgroundName("Custom name 1")
 --- Changes background name to "Custom name 1"
 function app.setBackgroundName(name) end
 
 --- Gets the display DPI.
---- 
+---
 --- @return integer displayDpi dpi of the display
---- 
+---
 --- Example: app.getDisplayDpi()
 function app.getDisplayDpi() end
 
 --- Gets the current zoom.
---- 
+---
 --- @return double current zoom level
---- 
+---
 --- Example: app.getZoom()
 function app.getZoom() end
 
 --- Sets the current zoom.
---- 
+---
 --- @param zoom number
---- 
+---
 --- Example: app.setZoom(2.5)
 --- Changes zoom level to 2.5
 function app.setZoom(zoom) end
 
 --- Exports the current document as a pdf or as a svg or png image
---- 
+---
 --- @param opts {outputFile:string, range:string, background:string, progressiveMode: boolean}
---- 
+---
 --- Example 1:
 --- app.export({["outputFile"] = "Test.pdf", ["range"] = "2-5; 7", ["background"] = "none", ["progressiveMode"] = true})
 --- uses progressiveMode, so for each page of the document, instead of rendering one PDF page, the page layers are
 --- rendered one by one to produce as many pages as there are layers.
---- 
+---
 --- Example 2:
 --- app.export({["outputFile"] = "Test.svg", ["range"] = "3-", ["background"] = "unruled"})
---- 
+---
 --- Example 3:
 --- app.export({["outputFile"] = "Test.png", ["layerRange"] = "1-2", ["background"] = "all", ["pngWidth"] = 800})
 function app.export(opts) end
 
 --- Opens a file and by default asks the user what to do with the old document.
 --- Returns true when successful, false otherwise.
---- 
+---
 --- @param path string
 --- @param pageNr integer scroll to this page (defaults to 1)
 --- @param oldDocument boolean don't ask weather to save the old document? (defaults to false)
 --- @return boolean success
---- 
+---
 --- Example 1: local success = app.openFile("home/username/bg.pdf")
 ---            asks what to do with the old document and loads the file afterwards, scrolls to top
---- 
+---
 --- Example 2: local sucess = app.openFile("home/username/paintings.xopp", 3, true)
 ---            opens the file, scrolls to the 3rd page and does not ask to save the old document
 function app.openFile(path, pageNr, oldDocument) end
 
 --- Adds images from the provided paths or the provided image data on the current page on the current layer.
---- 
+---
 --- @param opts {images:{path:string, data:string, x:number, y:number, maxHeight:number, maxWidth:number,
 --- aspectRatio:boolean}[], allowUndoRedoAction:string}
 --- @return lightuserdata|string[]
---- 
+---
 --- Global parameters:
 ---  - images table: array of image-parameter-tables
 ---  - allowUndoRedoAction string: Decides how the change gets introduced into the undoRedo action list "individual",
 ---    "grouped" or "none"
---- 
+---
 --- Parameters per image:
 ---  - path string: filepath to the image
 ---    or
@@ -874,17 +874,17 @@ function app.openFile(path, pageNr, oldDocument) end
 ---    to false if the parameter is false, nil leads to the default value of true (default: true)
 ---  - scale number: factor to apply to the both dimensions in the end after setting width/height (with/without
 ---    keeping aspect ratio) (default: 1)
---- 
+---
 --- Note about scaling:
 --- If the maxHeight-, the maxWidth- as well as the aspectRatio-parameter are given, the image will fit into the
 --- rectangle specified with maxHeight/maxWidth. To preserve the aspect ratio, one dimension will be smaller than
 --- specified. Still, the scale parameter is applied after this width/height scaling and if after that the dimensions are
 --- too large for the page, the image still gets scaled down afterwards.
---- 
+---
 --- Returns a table with as many values as images were passed. A value of type lightuserdata represents the reference to
 --- the image, while on error the value corresponding to the image will be a string with the error message. If the
 --- parameters don't fit at all, a real lua error might be thrown immediately.
---- 
+---
 --- Example 1: local refs = app.addImages{images={{path="/media/data/myImg.png", x=10, y=20, scale=2},
 ---                                            {path="/media/data/myImg2.png", maxHeight=300, aspectRatio=true}},
 ---                                    allowUndoRedoAction="grouped",
@@ -895,15 +895,15 @@ function app.addImages(opts) end
 
 --- Puts a Lua Table of the Images (from the selection tool / selected layer) onto the stack.
 --- Is inverse to app.addImages
---- 
+---
 --- @param type string "selection" or "layer"
 --- @return {x:number, y:number, width:number, height:number, data:string, format:string, imageWidth:number,
 --- imageHeight:number, ref:lightuserdata}[] images
---- 
+---
 --- Required argument: type ("selection" or "layer")
---- 
+---
 --- Example: local images = app.getImages("selection")
---- 
+---
 --- return value:
 --- {
 ---     {
@@ -929,60 +929,60 @@ function app.getImages(type) end
 --- - data files
 --- - state files
 --- and forces it to exist.
---- 
+---
 --- @param type string "config", "data" or "state"
 --- @return string file path
---- 
+---
 --- Example 1: local configFolder = app.getFolder("config")
---- 
+---
 --- Example 2: local stateFolder = app.getFolder("state")
---- 
+---
 function app.getFolder(type) end
 
 --- Clears a selection by releasing its elements to the current layer.
---- 
+---
 --- Example: app.clearSelection()
---- 
+---
 function app.clearSelection() end
 
 --- Adds those elements from the current layer to the current selection,
 --- whose addresses are in refs. If there is no selection create one.
---- 
+---
 --- @param refs lightuserdata[] references to elements from the current layer
---- 
+---
 --- Required argument: refs
---- 
+---
 --- Example: local refs = app.addStrokes( <some stroke data> )
 ---          app.addToSelection(refs)
---- 
+---
 function app.addToSelection(refs) end
 
 --- Registers a new placeholder label for the toolbar.
---- 
+---
 --- @param id string: The placeholder ID (must be unique for each placeholder)
 --- @param description string: The label description shown in the toolbar
---- 
+---
 --- Example:
 ---   app.registerPlaceholder("vi-mode", "Current mode")
---- 
+---
 --- The placeholder can then be updated with app.setPlaceholderValue(id, value).
 function app.registerPlaceholder(id, description) end
 
 --- Set the value of a plugin placeholder label in the toolbar.
---- 
+---
 --- @param id string: The placeholder ID
 --- @param value string: The value to display
---- 
+---
 --- Example: app.setPlaceholderValue("vi-mode", "Current mode")
 --- Updates the toolbar placeholder with the given value.
 function app.setPlaceholderValue(id, value) end
 
 --- Get list of available font families on the system
---- 
+---
 --- @return table: A table containing:
 ---                - families: array of font family names
 ---                - current: index of the currently selected font (or nil if not found)
---- 
+---
 --- Example:
 ---   local fonts = app.getFonts()
 ---   for i, family in ipairs(fonts.families) do
@@ -992,9 +992,9 @@ function app.setPlaceholderValue(id, value) end
 function app.getFonts() end
 
 --- Get the current font for text tool
---- 
+---
 --- @return table: A table with 'name' and 'size' fields representing the current font
---- 
+---
 --- Example:
 ---   local font = app.getFont()
 ---   print(font.name)  -- "Arial"
@@ -1002,13 +1002,13 @@ function app.getFonts() end
 function app.getFont() end
 
 --- Set the current font for text tool
---- 
+---
 --- @param font string|table: Either a Pango-style font description string (e.g., "Arial 12")
 ---                           or a table with 'name' and/or 'size' fields
---- 
+---
 --- The font family name is validated against the system's available fonts.
 --- If the font is not available, an error is raised.
---- 
+---
 --- Examples:
 ---   app.setFont("Arial 12")
 ---   app.setFont({name = "Arial", size = 12})
@@ -1133,43 +1133,43 @@ function app.setFont(font) end
 
 ---@enum
 app.C = {
-    ToolSize_veryThin = 0,
-    ToolSize_thin = 1,
-    ToolSize_medium = 2,
-    ToolSize_thick = 3,
-    ToolSize_veryThick = 4,
-    ToolSize_none = 5,
-    Tool_none = 0,
-    Tool_pen = 1,
-    Tool_eraser = 2,
-    Tool_highlighter = 3,
-    Tool_text = 4,
-    Tool_image = 5,
-    Tool_selectRect = 6,
-    Tool_selectRegion = 7,
-    Tool_selectMultiLayerRect = 8,
-    Tool_selectMultiLayerRegion = 9,
-    Tool_selectObject = 10,
-    Tool_playObject = 11,
-    Tool_verticalSpace = 12,
-    Tool_hand = 13,
-    Tool_drawRect = 14,
-    Tool_drawEllipse = 15,
-    Tool_drawArrow = 16,
-    Tool_drawDoubleArrow = 17,
-    Tool_drawCoordinateSystem = 18,
-    Tool_showFloatingToolbox = 19,
-    Tool_drawSpline = 20,
-    Tool_selectPdfTextLinear = 21,
-    Tool_selectPdfTextRect = 22,
-    Tool_laserPointerPen = 23,
-    Tool_laserPointerHighlighter = 24,
-    EraserType_none = 0,
-    EraserType_default = 1,
-    EraserType_whiteout = 2,
-    EraserType_deleteStroke = 3,
-    OrderChange_bringToFront = 0,
-    OrderChange_bringForward = 1,
-    OrderChange_sendBackward = 2,
-    OrderChange_sendToBack = 3,
+  ToolSize_veryThin = 0,
+  ToolSize_thin = 1,
+  ToolSize_medium = 2,
+  ToolSize_thick = 3,
+  ToolSize_veryThick = 4,
+  ToolSize_none = 5,
+  Tool_none = 0,
+  Tool_pen = 1,
+  Tool_eraser = 2,
+  Tool_highlighter = 3,
+  Tool_text = 4,
+  Tool_image = 5,
+  Tool_selectRect = 6,
+  Tool_selectRegion = 7,
+  Tool_selectMultiLayerRect = 8,
+  Tool_selectMultiLayerRegion = 9,
+  Tool_selectObject = 10,
+  Tool_playObject = 11,
+  Tool_verticalSpace = 12,
+  Tool_hand = 13,
+  Tool_drawRect = 14,
+  Tool_drawEllipse = 15,
+  Tool_drawArrow = 16,
+  Tool_drawDoubleArrow = 17,
+  Tool_drawCoordinateSystem = 18,
+  Tool_showFloatingToolbox = 19,
+  Tool_drawSpline = 20,
+  Tool_selectPdfTextLinear = 21,
+  Tool_selectPdfTextRect = 22,
+  Tool_laserPointerPen = 23,
+  Tool_laserPointerHighlighter = 24,
+  EraserType_none = 0,
+  EraserType_default = 1,
+  EraserType_whiteout = 2,
+  EraserType_deleteStroke = 3,
+  OrderChange_bringToFront = 0,
+  OrderChange_bringForward = 1,
+  OrderChange_sendBackward = 2,
+  OrderChange_sendToBack = 3,
 }
