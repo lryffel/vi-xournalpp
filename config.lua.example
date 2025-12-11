@@ -1,0 +1,14 @@
+-- Configuration for vi-xournalpp plugin
+-- Copy this file to config.lua and customize
+
+local layouts = require('layouts')
+
+-- Set your keyboard layout: 'qwerty', 'dvorak', or 'colemak'
+layouts.active_layout = 'qwerty'
+
+-- Optional: Override specific keys
+-- layouts.key_overrides = {
+--   ['w'] = 'j',
+-- }
+
+return layouts
