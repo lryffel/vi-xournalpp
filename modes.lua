@@ -1,4 +1,4 @@
-require('api')
+local api = require('api')
 require('colors')
 require('keybindings')
 
@@ -9,7 +9,11 @@ function handle(key)
       if currentMode ~= 'tool' and not sticky then
         currentMode = 'tool'
       end
-      binding.call()
+      if binding.call then
+        binding.call()
+      else
+        print('[vi-xournalpp] WARNING: No call function for ' .. (binding.description or 'unknown'))
+      end
       print(binding.description)
       break
     end

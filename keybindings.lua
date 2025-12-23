@@ -1,5 +1,4 @@
--- require "modes"
-require('api')
+local api = require('api')
 
 ALL_MODES = {
   'tool',
@@ -22,9 +21,7 @@ keybindings = {
     buttons = { 'w' },
     modes = { 'tool' },
     call = function()
-      clickPen()
-      cleanShape()
-      clickPlain()
+      api.pen()
     end,
   },
   eraser = {
@@ -32,8 +29,7 @@ keybindings = {
     buttons = { 'e' },
     modes = { 'tool' },
     call = function()
-      clickEraser()
-      cleanShape()
+      api.eraser()
     end,
   },
   highlighter = {
@@ -41,40 +37,40 @@ keybindings = {
     buttons = { 'f' },
     modes = { 'tool' },
     call = function()
-      clickHighlighter()
+      api.highlighter()
       cleanShape()
-      clickPlain()
+      api.plain()
     end,
   },
   hand = {
     description = 'Hand',
     buttons = { '<Shift>d' },
     modes = { 'tool' },
-    call = clickHand,
+    call = api.hand,
   },
   selection = {
     description = 'Selection',
     buttons = { 's' },
     modes = { 'tool' },
-    call = clickSelectRegion,
+    call = api.selectRegion,
   },
   tex = {
     description = 'Tex',
     buttons = { 'i' },
     modes = { 'tool' },
-    call = clickTex,
+    call = api.tex,
   },
   text = {
     description = 'Text',
     buttons = { '<Shift>t', '<Shift>i' },
     modes = { 'tool' },
-    call = clickText,
+    call = api.text,
   },
   delete = {
     description = 'Delete',
     buttons = { 'x' },
     modes = { 'tool' },
-    call = clickDelete,
+    call = api.delete,
   },
 
   -- History
@@ -82,13 +78,13 @@ keybindings = {
     description = 'Undo',
     buttons = { 'd', 'u', 'z' },
     modes = { 'tool' },
-    call = clickUndo,
+    call = api.undo,
   },
   redo = {
     description = 'Redo',
     buttons = { 'r' },
     modes = { 'tool' },
-    call = clickRedo,
+    call = api.redo,
   },
 
   -- Mode Selection
@@ -234,25 +230,25 @@ keybindings = {
     description = 'NewAfter',
     buttons = { 'n' },
     modes = { 'tool' },
-    call = clickNewAfter,
+    call = api.newAfter,
   },
   annotatePDFTool = {
     description = 'Annotate PDF',
     buttons = { 'o' },
     modes = { 'tool' },
-    call = clickAnnotatePDF,
+    call = api.annotatePDF,
   },
   zoomIn = {
     description = 'Zoom in',
     buttons = { 'greater', '<Shift>greater', 'plus', '<Shift>plus' },
     modes = { 'tool' },
-    call = clickZoomIn,
+    call = api.zoomIn,
   },
   zoomOut = {
     description = 'Zoom out',
     buttons = { 'minus', 'less' },
     modes = { 'tool' },
-    call = clickZoomOut,
+    call = api.zoomOut,
   },
 
   -- Thickness
@@ -260,31 +256,31 @@ keybindings = {
     description = 'Very Fine',
     buttons = { 'a' },
     modes = { 'resize' },
-    call = clickVeryFine,
+    call = api.veryFine,
   },
   fine = {
     description = 'Fine',
     buttons = { 's' },
     modes = { 'resize' },
-    call = clickFine,
+    call = api.fine,
   },
   medium = {
     description = 'Medium',
     buttons = { 'd' },
     modes = { 'resize' },
-    call = clickMedium,
+    call = api.medium,
   },
   thick = {
     description = 'Thick',
     buttons = { 'f' },
     modes = { 'resize' },
-    call = clickThick,
+    call = api.thick,
   },
   veryThick = {
     description = 'Very thick',
     buttons = { 'g' },
     modes = { 'resize' },
-    call = clickVeryThick,
+    call = api.veryThick,
   },
   -- Colors
   black = {
@@ -292,7 +288,7 @@ keybindings = {
     buttons = { 'x' },
     modes = { 'color' },
     call = function()
-      changeToolColor(blackColor)
+      api.changeToolColor(blackColor)
     end,
   },
   white = {
@@ -300,7 +296,7 @@ keybindings = {
     buttons = { 'w' },
     modes = { 'color' },
     call = function()
-      changeToolColor(whiteColor)
+      api.changeToolColor(whiteColor)
     end,
   },
   pink = {
@@ -308,7 +304,7 @@ keybindings = {
     buttons = { 'q' },
     modes = { 'color' },
     call = function()
-      changeToolColor(pinkColor)
+      api.changeToolColor(pinkColor)
     end,
   },
   red = {
@@ -316,7 +312,7 @@ keybindings = {
     buttons = { 'r' },
     modes = { 'color' },
     call = function()
-      changeToolColor(redColor)
+      api.changeToolColor(redColor)
     end,
   },
   orange = {
@@ -324,7 +320,7 @@ keybindings = {
     buttons = { 'o' },
     modes = { 'color' },
     call = function()
-      changeToolColor(orangeColor)
+      api.changeToolColor(orangeColor)
     end,
   },
   yellow = {
@@ -332,7 +328,7 @@ keybindings = {
     buttons = { 'y' },
     modes = { 'color' },
     call = function()
-      changeToolColor(yellowColor)
+      api.changeToolColor(yellowColor)
     end,
   },
   green = {
@@ -340,7 +336,7 @@ keybindings = {
     buttons = { 'g' },
     modes = { 'color' },
     call = function()
-      changeToolColor(greenColor)
+      api.changeToolColor(greenColor)
     end,
   },
   cyan = {
@@ -348,7 +344,7 @@ keybindings = {
     buttons = { 'c' },
     modes = { 'color' },
     call = function()
-      changeToolColor(cyanColor)
+      api.changeToolColor(cyanColor)
     end,
   },
   blue = {
@@ -356,7 +352,7 @@ keybindings = {
     buttons = { 'b' },
     modes = { 'color' },
     call = function()
-      changeToolColor(blueColor)
+      api.changeToolColor(blueColor)
     end,
   },
   purple = {
@@ -364,7 +360,7 @@ keybindings = {
     buttons = { 'p', 'a' },
     modes = { 'color' },
     call = function()
-      changeToolColor(purpleColor)
+      api.changeToolColor(purpleColor)
     end,
   },
 
@@ -373,62 +369,62 @@ keybindings = {
     description = 'Ruler',
     buttons = { 's' },
     modes = { 'shape' },
-    call = clickRuler,
+    call = api.ruler,
   },
   arrow = {
     description = 'Arrow',
     buttons = { 'a' },
     modes = { 'shape' },
-    call = clickArrow,
+    call = api.arrow,
   },
   rectangle = {
     description = 'Rectangle',
     buttons = { 'r', 'c' },
     modes = { 'shape' },
-    call = clickRectangle,
+    call = api.rectangle,
   },
   ellipse = {
     description = 'Ellipse',
     buttons = { 'e' },
     modes = { 'shape' },
-    call = clickEllipse,
+    call = api.ellipse,
   },
   spline = {
     description = 'Spline',
     buttons = { 'b' },
     modes = { 'shape' },
-    call = clickSpline,
+    call = api.spline,
   },
   fill = {
     description = 'Fill',
     buttons = { 'f' },
     modes = { 'shape' },
-    call = clickFill,
+    call = api.fill,
   },
   -- Linestyles
   plain = {
     description = 'Plain',
     buttons = { 'a', 'i', 'p' },
     modes = { 'linestyle' },
-    call = clickPlain,
+    call = api.plain,
   },
   dashed = {
     description = 'Dashed',
     buttons = { 's' },
     modes = { 'linestyle' },
-    call = clickDashed,
+    call = api.dashed,
   },
   dotted = {
     description = 'Dotted',
     buttons = { 'd' },
     modes = { 'linestyle' },
-    call = clickDotted,
+    call = api.dotted,
   },
   dashDotted = {
     description = 'DashDotted',
     buttons = { 'f' },
     modes = { 'linestyle' },
-    call = clickDashDotted,
+    call = api.dashDotted,
   },
 
   -- Page
@@ -436,7 +432,7 @@ keybindings = {
     description = 'copyPage',
     buttons = { 'c' },
     modes = { 'page' },
-    call = clickCopyPage,
+    call = api.copyPage,
   },
   deletePage = {
     description = 'DeletePage',
@@ -648,10 +644,10 @@ keybindings = {
 
 -- helper functions
 function cleanShape()
-  clickRuler(false)
-  clickArrow(false)
-  clickRectangle(false)
-  clickEllipse(false)
-  clickSpline(false)
+  api.ruler(false)
+  api.arrow(false)
+  api.rectangle(false)
+  api.ellipse(false)
+  api.spline(false)
   clickFill(false)
 end
