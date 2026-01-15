@@ -33,7 +33,7 @@ local wrapper = require('api.wrapper')
 --   deps: array of capability names required for this implementation
 
 return {
-  -- tools
+  -- TOOLS
   pen = {
     {
       impl = wrapper.pen,
@@ -58,28 +58,20 @@ return {
     { impl = wrapper.highlighter, deps = {} },
     { impl = legacy.highlighter, deps = {} },
   },
-  -- name = {
-  --  { impl = function() end, deps = {} },
-  --  { impl = function() end, deps = {} },
-  -- },
-  -- name = {
-  --  { impl = function() end, deps = {} },
-  --  { impl = function() end, deps = {} },
-  -- },
-  -- name = {
-  --  { impl = function() end, deps = {} },
-  --  { impl = function() end, deps = {} },
-  -- },
-  -- name = {
-  --  { impl = function() end, deps = {} },
-  --  { impl = function() end, deps = {} },
-  -- },
-  -- name = {
-  --  { impl = function() end, deps = {} },
-  --  { impl = function() end, deps = {} },
-  -- },
+  hand = {
+    { impl = wrapper.hand, deps = { 'changeActionState', 'app.C.Tool_hand' } },
+    { impl = legacy.hand, deps = { 'uiAction' } },
+  },
+  text = {
+    { impl = wrapper.text, deps = { 'changeActionState', 'app.C.Tool_text' } },
+    { impl = legacy.text, deps = { 'uiAction' } },
+  },
+  tex = {
+    { impl = wrapper.tex, deps = { 'activateAction' } },
+    { impl = legacy.tex, deps = { 'uiAction' } },
+  },
 
-  -- line thickness
+  -- LINE WIDTH
   veryFine = {
     {
       impl = wrapper.veryFine,

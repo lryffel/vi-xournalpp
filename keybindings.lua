@@ -20,27 +20,19 @@ keybindings = {
     description = 'Pen',
     buttons = { 'w' },
     modes = { 'tool' },
-    call = function()
-      api.pen()
-    end,
+    call = api.pen,
   },
   eraser = {
     description = 'Eraser',
     buttons = { 'e' },
     modes = { 'tool' },
-    call = function()
-      api.eraser()
-    end,
+    call = api.eraser,
   },
   highlighter = {
     description = 'Highlighter',
     buttons = { 'f' },
     modes = { 'tool' },
-    call = function()
-      api.highlighter()
-      cleanShape()
-      api.plain()
-    end,
+    call = api.highlighter,
   },
   hand = {
     description = 'Hand',
