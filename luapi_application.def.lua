@@ -1,15 +1,18 @@
 -- Xournal++ Lua Plugin API Type Definitions
 --
--- This file provides IntelliSense, type checking, and documentation for the Xournal++ Lua API.
--- It is used by the Lua Language Server for IDE features and is NOT loaded at runtime.
+-- This file provides IntelliSense, type checking,
+-- and documentation for the Xournal++ Lua API.
+-- It is used by the Lua Language Server for IDE features
+-- and is NOT loaded at runtime.
 -- Xournal++ provides the actual 'app' object when the plugin runs.
 --
 -- Source: https://github.com/xournalpp/xournalpp/blob/master/plugins/luapi_application.def.lua
--- Action properties: https://github.com/xournalpp/xournalpp/blob/master/src/core/control/actions/ActionProperties.h
--- Based on commit: 6ed3d6b (2025-10-11)
--- Permalink: https://github.com/xournalpp/xournalpp/blob/6ed3d6b5da138ae7170b3d51c23277396ddd1a38/plugins/luapi_application.def.lua
+-- Action properties:
+-- https://github.com/xournalpp/xournalpp/blob/master/src/core/control/actions/ActionProperties.h
+-- Based on commit: a348552 (2025-11-04)
+-- Permalink: https://github.com/xournalpp/xournalpp/blob/a348552395615bbcbe74ff33c5d1e06d1b1d88b7/plugins/luapi_application.def.lua
 --
--- Last synced: 2025-10-11
+-- Last synced: 2025-12-23
 
 ---@meta
 app = {}
@@ -422,7 +425,7 @@ function app.addTexts(opts) end
 ---             size = 8.0,
 ---            },
 ---     color = 0x0,
----     x = 150.0,,
+---     x = 150.0,
 ---     y = 70.0,
 ---     width = 55.0,
 ---     height = 23.0,
@@ -598,7 +601,7 @@ function app.changeBackgroundPdfPageNr(pageNr, relative) end
 ---
 --- See /src/control/ToolEnums.cpp for possible values of "size".
 ---
---- for seiection:
+--- for selection:
 --- {
 ---   -- bounding box as drawn in the UI (includes padding on all sides)
 ---   "boundingBox" = {
@@ -1098,6 +1101,7 @@ function app.setFont(font) end
 ---| "tool-highlighter-fill"
 ---| "tool-highlighter-fill-opacity"
 ---| "tool-select-pdf-text-marker-opacity"
+---| "toggle-touch-drawing"
 ---| "audio-record"
 ---| "audio-pause-playback"
 ---| "audio-stop-playback"
