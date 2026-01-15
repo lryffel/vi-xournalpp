@@ -2,7 +2,75 @@
 
 local wrapper = {}
 
--- line width
+-- TOOLS
+wrapper.pen = function()
+  app.changeActionState('select-tool', app.C.Tool_pen)
+end
+
+wrapper.eraser = function()
+  app.changeActionState('select-tool', app.C.Tool_eraser)
+end
+
+wrapper.highlighter = function()
+  app.changeActionState('select-tool', app.C.Tool_highlighter)
+end
+
+wrapper.hand = function()
+  app.changeActionState('select-tool', app.C.Tool_hand)
+end
+
+wrapper.text = function()
+  app.changeActionState('select-tool', app.C.Tool_text)
+end
+
+wrapper.tex = function()
+  app.activateAction('tex')
+end
+
+-- SELECTION
+wrapper.selectRegion = function()
+  app.changeActionState('select-tool', app.C.Tool_selectRegion)
+end
+
+wrapper.selectRectangle = function()
+  app.changeActionState('select-tool', app.C.Tool_selectRect)
+end
+
+wrapper.selectObject = function()
+  app.changeActionState('select-tool', app.C.Tool_selectObject)
+end
+
+-- SHAPES
+wrapper.ruler = function()
+  app.activateAction('tool-draw-line')
+end
+
+wrapper.arrow = function()
+  app.activateAction('tool-draw-arrow')
+end
+
+wrapper.rectangle = function()
+  app.activateAction('tool-draw-rectangle')
+end
+
+wrapper.ellipse = function()
+  app.activateAction('tool-draw-ellipse')
+end
+
+wrapper.spline = function()
+  app.activateAction('tool-draw-spline')
+end
+
+wrapper.fill = function(enabled)
+  ---TODO find the equivalent
+  -- app.uiAction({ action = 'ACTION_TOOL_FILL', selection = true, enabled = enabled })
+  -- we gotta figure out how it works by testing or reading the src code
+  -- I think it might be a toggle on its own or it takes an input
+  -- this is api is confusing tbh
+  app.changeActionState('tool-fill', enabled)
+end
+
+-- LINE WIDTH
 wrapper.veryFine = function()
   app.changeActionState('tool-size', app.C.ToolSize_veryThin)
 end
@@ -23,81 +91,11 @@ wrapper.veryThick = function()
   app.changeActionState('tool-size', app.C.ToolSize_veryThick)
 end
 
--- tools
-wrapper.pen = function()
-  app.changeActionState('select-tool', app.C.Tool_pen)
-end
-
-wrapper.eraser = function()
-  app.changeActionState('select-tool', app.C.Tool_eraser)
-end
-
-wrapper.highlighter = function()
-  app.changeActionState('select-tool', app.C.Tool_highlighter)
-end
-
-wrapper.selectRegion = function()
-  app.changeActionState('select-tool', app.C.Tool_selectRegion)
-end
-
-wrapper.selectRectangle = function()
-  app.changeActionState('select-tool', app.C.Tool_selectRect)
-end
-
-wrapper.selectObject = function()
-  app.changeActionState('select-tool', app.C.Tool_selectObject)
-end
-
-wrapper.tex = function()
-  app.activateAction('tex')
-end
-
-wrapper.text = function()
-  app.changeActionState('select-tool', app.C.Tool_text)
-end
-
-wrapper.hand = function()
-  app.changeActionState('select-tool', app.C.Tool_hand)
-end
-
-wrapper.delete = function()
-  app.activateAction('delete')
-end
-
-wrapper.getToolInfo = function(tool)
-  return app.getToolInfo(tool)
-end
-
--- shapes
-wrapper.ruler = function(enabled)
-  app.activateAction('tool-draw-line')
-end
-
-wrapper.arrow = function(enabled)
-  app.activateAction('tool-draw-arrow')
-end
-
-wrapper.ellipse = function(enabled)
-  app.activateAction('tool-draw-ellipse')
-end
-
-wrapper.rectangle = function(enabled)
-  app.activateAction('tool-draw-rectangle')
-end
-
-wrapper.spline = function(enabled)
-  app.activateAction('tool-draw-spline')
-end
-
+-- LINE STYLE
 wrapper.plain = function()
   app.changeActionState('tool-pen-line-style', 'plain')
 end
 
-wrapper.fill = function(enabled)
-  app.uiAction({ action = 'ACTION_TOOL_FILL', selection = true, enabled = enabled })
-end
-
--- linestyle
 wrapper.dotted = function()
   app.changeActionState('tool-pen-line-style', 'dot')
 end
@@ -110,7 +108,7 @@ wrapper.dashDotted = function()
   app.changeActionState('tool-pen-line-style', 'dashdot')
 end
 
--- color
+-- COLOR
 wrapper.changeToolColor = function(color)
   local activeToolInfo = wrapper.getToolInfo('active')
   local toolName = (activeToolInfo and activeToolInfo.type) or 'unknown tool'
@@ -124,7 +122,20 @@ wrapper.changeToolColor = function(color)
   end
 end
 
--- zooming
+-- EDITING
+wrapper.delete = function()
+  app.activateAction('delete')
+end
+
+wrapper.undo = function()
+  app.activateAction('undo')
+end
+
+wrapper.redo = function()
+  app.activateAction('redo')
+end
+
+-- ZOOM
 wrapper.zoomIn = function()
   app.activateAction('zoom-in')
 end
@@ -133,7 +144,15 @@ wrapper.zoomOut = function()
   app.activateAction('zoom-out')
 end
 
--- page
+-- PAGE MANAGEMENT
+wrapper.newBefore = function()
+  app.activateAction('new-page-before')
+end
+
+wrapper.newAfter = function()
+  app.activateAction('new-page-after')
+end
+
 wrapper.copyPage = function()
   app.activateAction('duplicate-page')
 end
@@ -143,92 +162,101 @@ wrapper.deletePage = function()
 end
 
 wrapper.moveUp = function()
-  app.sidebarAction('MOVE_UP')
+  app.activateAction('move-page-towards-beginning')
 end
 
 wrapper.moveDown = function()
-  app.sidebarAction('MOVE_DOWN')
+  app.activateAction('move-page-towards-end')
 end
 
-wrapper.newBefore = function()
-  app.sidebarAction('NEW_BEFORE')
-end
-
-wrapper.newAfter = function()
-  app.sidebarAction('NEW_AFTER')
-end
-
+-- LAYER MANAGEMENT
 wrapper.newLayer = function()
-  app.uiAction({ action = 'ACTION_NEW_LAYER' })
+  app.activateAction('layer-new-above-current')
 end
 
 wrapper.deleteLayer = function()
-  app.uiAction({ action = 'ACTION_DELETE_LAYER' })
+  app.activateAction('layer-delete')
 end
 
--- navigation
+wrapper.layerDown = function()
+  app.activateAction('layer-goto-next')
+end
+
+wrapper.layerUp = function()
+  app.activateAction('layer-goto-previous')
+end
+
+-- NAVIGATION
+wrapper.currentPage = function()
+  return app.getDocumentStructure().currentPage
+end
+
 wrapper.goToFirstPage = function()
   app.scrollToPage(1, false)
 end
 
-wrapper.goToTop = function()
-  app.scrollToPos(0, 0, false)
+wrapper.goToLastPage = function()
+  -- this is not tested yet
+  local doc = app.getDocumentStructure()
+  local lastPage = #doc.pages
+  app.scrollToPage(lastPage, false)
 end
 
 wrapper.goToPage = function(page)
   app.scrollToPage(page, false)
 end
 
-wrapper.goToPos = function(x, y)
-  app.scrollToPos(x, y, true)
+wrapper.goToTop = function()
+  app.scrollToPos(0, 0, false)
 end
 
-wrapper.scrollPageDown = function()
-  app.scrollToPage(1, true)
+wrapper.goToBottom = function()
+  local docStructure = app.getDocumentStructure()
+  local currentPage = docStructure.currentPage
+  local pageHeight = docStructure.pages[currentPage].pageHeight
+  app.scrollToPos(0, pageHeight, false)
+end
+
+wrapper.goToPos = function(x, y)
+  app.scrollToPos(x, y, true)
 end
 
 wrapper.scrollPageUp = function()
   app.scrollToPage(-1, true)
 end
 
-wrapper.goToBottom = function()
-  local docStructure = app.getDocumentStructure()
-  local pageHeight = docStructure.pages[currentPage].pageHeight
-  app.scrollToPos(0, pageHeight, false)
+wrapper.scrollPageDown = function()
+  app.scrollToPage(1, true)
 end
 
-wrapper.goToLastPage = function()
-  app.scrollToPage(1000000000, false)
+-- BACKGROUND
+wrapper.plainBG = function()
+  app.changeCurrentPageBackground('plain')
 end
 
-wrapper.currentPage = function()
-  return app.getDocumentStructure().currentPage
+wrapper.ruledBG = function()
+  app.changeCurrentPageBackground('ruled')
 end
 
-wrapper.layerDown = function()
-  app.uiAction({ action = 'ACTION_GOTO_PREVIOUS_LAYER' })
+wrapper.graphBG = function()
+  app.changeCurrentPageBackground('graph')
 end
 
-wrapper.layerUp = function()
-  app.uiAction({ action = 'ACTION_GOTO_NEXT_LAYER' })
+wrapper.dottedGraphBG = function()
+  app.changeCurrentPageBackground('dotted')
 end
 
--- history
-wrapper.undo = function()
-  app.activateAction('undo')
+wrapper.isometricGraphBG = function()
+  app.changeCurrentPageBackground('isograph')
 end
 
-wrapper.redo = function()
-  app.activateAction('redo')
+wrapper.isometricDottedGraphBG = function()
+  app.changeCurrentPageBackground('isodotted')
 end
 
--- files
-wrapper.annotatePDF = function()
-  app.activateAction('annotate-pdf')
-end
-
-wrapper.exportAsPDF = function()
-  app.activateAction('export-as-pdf')
+-- FILES
+wrapper.open = function()
+  app.activateAction('open')
 end
 
 wrapper.save = function()
@@ -239,33 +267,17 @@ wrapper.saveAs = function()
   app.activateAction('save-as')
 end
 
-wrapper.open = function()
-  app.activateAction('open')
+wrapper.annotatePDF = function()
+  app.activateAction('annotate-pdf')
 end
 
--- background
-wrapper.ruledBG = function()
-  app.changeCurrentPageBackground('ruled')
+wrapper.exportAsPDF = function()
+  app.activateAction('export-as-pdf')
 end
 
-wrapper.graphBG = function()
-  app.changeCurrentPageBackground('graph')
-end
-
-wrapper.isometricGraphBG = function()
-  app.changeCurrentPageBackground('isograph')
-end
-
-wrapper.dottedGraphBG = function()
-  app.changeCurrentPageBackground('dotted')
-end
-
-wrapper.isometricDottedGraphBG = function()
-  app.changeCurrentPageBackground('isodotted')
-end
-
-wrapper.plainBG = function()
-  app.changeCurrentPageBackground('plain')
+-- MISC
+wrapper.getToolInfo = function(tool)
+  return app.getToolInfo(tool)
 end
 
 return wrapper

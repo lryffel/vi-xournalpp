@@ -54,6 +54,31 @@ return {
       deps = { 'uiAction' },
     },
   },
+  highlighter = {
+    { impl = wrapper.highlighter, deps = {} },
+    { impl = legacy.highlighter, deps = {} },
+  },
+  -- name = {
+  --  { impl = function() end, deps = {} },
+  --  { impl = function() end, deps = {} },
+  -- },
+  -- name = {
+  --  { impl = function() end, deps = {} },
+  --  { impl = function() end, deps = {} },
+  -- },
+  -- name = {
+  --  { impl = function() end, deps = {} },
+  --  { impl = function() end, deps = {} },
+  -- },
+  -- name = {
+  --  { impl = function() end, deps = {} },
+  --  { impl = function() end, deps = {} },
+  -- },
+  -- name = {
+  --  { impl = function() end, deps = {} },
+  --  { impl = function() end, deps = {} },
+  -- },
+
   -- line thickness
   veryFine = {
     {
