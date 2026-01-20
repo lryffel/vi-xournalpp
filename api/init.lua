@@ -1,8 +1,12 @@
 -- Main API module - dependency-based function resolution
 local capabilities = require('api.capabilities')
 local registry = require('api.registry')
-local wrapper = require('api.wrapper')
-local legacy = require('api.legacy')
+
+local verbose = false
+local ok, config = pcall(require, 'config')
+if ok and config and config.verbose then
+  verbose = true
+end
 
 local function unsupported(func_name)
   return function()
@@ -28,19 +32,24 @@ end
 
 local api = {}
 
-print('[vi-xournalpp] Resolving API functions...')
+if verbose then
+  print('[vi-xournalpp] Resolving API functions...')
+end
+
 capabilities.validateRegistry(registry)
 
 for func_name, implementations in pairs(registry) do
   api[func_name] = resolveFunction(func_name, implementations)
 end
 
-print('[vi-xournalpp] API resolution complete')
-capabilities.printCoverageSummary()
+if verbose then
+  print('[vi-xournalpp] API resolution complete')
+  capabilities.printCoverageSummary()
+end
 
 setmetatable(api, {
   __index = function(_, key)
-    return function(...)
+    return function()
       print('[vi-xournalpp] WARNING: Function "' .. key .. '" not available in current API')
     end
   end,

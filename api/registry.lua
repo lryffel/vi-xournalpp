@@ -1,6 +1,40 @@
 -- Function Registry
--- Defines function specifications with dependency chains
--- Each function can have multiple implementations with their own dependencies
+-- =================
+-- This file defines which API functions are available and how they are implemented.
+--
+-- HOW IT WORKS:
+-- At plugin load, api/init.lua checks each function in this registry and selects
+-- the first implementation whose dependencies are all available in the current
+-- Xournal++ version. This allows the plugin to support both old (uiAction) and
+-- new (changeActionState + app.C constants) APIs seamlessly.
+--
+-- REGISTRY STRUCTURE:
+-- Each entry is a function name (e.g., 'pen') mapped to an array of implementations.
+--
+--   functionName = {
+--     { impl = <function>, deps = { 'capability1', 'app.C.CONSTANT', ... } },
+--     { impl = <function>, deps = { 'capability2' } },
+--   }
+--
+-- - impl: The actual function that gets called when this API is selected.
+--         Usually wrapper.<funcName> (new API) or legacy.<funcName> (old API).
+-- - deps: Array of capabilities required for this implementation.
+--         Can be app.* function names or app.C.* constant names.
+--         If deps is empty {}, the implementation is always available.
+--
+-- RESOLUTION ORDER:
+-- Implementations are tried top-to-bottom. Put preferred implementations first.
+--
+-- ADDING NEW FUNCTIONS:
+-- 1. Implement the function in api/wrapper.lua (new API)
+-- 2. Implement the function in api/legacy.lua (old API) if possible
+-- 3. Add an entry here with both implementations listed
+--
+-- Example:
+--   myFunction = {
+--     { impl = wrapper.myFunction, deps = { 'changeActionState', 'app.C.Tool_myTool' } },
+--     { impl = legacy.myFunction, deps = { 'uiAction' } },
+--   },
 
 local legacy = require('api.legacy')
 local wrapper = require('api.wrapper')
@@ -96,8 +130,210 @@ return {
     { impl = legacy.veryThick, deps = { 'uiAction' } },
   },
 
-  -- name = {
-  --  { impl = function() end, deps = {} },
-  --  { impl = function() end, deps = {} },
-  -- },
+  -- LINE STYLE
+  plain = {
+    { impl = wrapper.plain, deps = { 'changeActionState' } },
+    { impl = legacy.plain, deps = { 'uiAction' } },
+  },
+  dotted = {
+    { impl = wrapper.dotted, deps = { 'changeActionState' } },
+    { impl = legacy.dotted, deps = { 'uiAction' } },
+  },
+  dashed = {
+    { impl = wrapper.dashed, deps = { 'changeActionState' } },
+    { impl = legacy.dashed, deps = { 'uiAction' } },
+  },
+  dashDotted = {
+    { impl = wrapper.dashDotted, deps = { 'changeActionState' } },
+    { impl = legacy.dashDotted, deps = { 'uiAction' } },
+  },
+
+  -- SELECTION
+  selectRegion = {
+    { impl = wrapper.selectRegion, deps = { 'changeActionState', 'app.C.Tool_selectRegion' } },
+    { impl = legacy.selectRegion, deps = { 'uiAction' } },
+  },
+  selectRectangle = {
+    { impl = wrapper.selectRectangle, deps = { 'changeActionState', 'app.C.Tool_selectRect' } },
+    { impl = legacy.selectRectangle, deps = { 'uiAction' } },
+  },
+  selectObject = {
+    { impl = wrapper.selectObject, deps = { 'changeActionState', 'app.C.Tool_selectObject' } },
+    { impl = legacy.selectObject, deps = { 'uiAction' } },
+  },
+
+  -- SHAPES
+  ruler = {
+    { impl = wrapper.ruler, deps = { 'activateAction' } },
+    { impl = legacy.ruler, deps = { 'uiAction' } },
+  },
+  arrow = {
+    { impl = wrapper.arrow, deps = { 'activateAction' } },
+    { impl = legacy.arrow, deps = { 'uiAction' } },
+  },
+  rectangle = {
+    { impl = wrapper.rectangle, deps = { 'activateAction' } },
+    { impl = legacy.rectangle, deps = { 'uiAction' } },
+  },
+  ellipse = {
+    { impl = wrapper.ellipse, deps = { 'activateAction' } },
+    { impl = legacy.ellipse, deps = { 'uiAction' } },
+  },
+  spline = {
+    { impl = wrapper.spline, deps = { 'activateAction' } },
+    { impl = legacy.spline, deps = { 'uiAction' } },
+  },
+  fill = {
+    { impl = wrapper.fill, deps = { 'changeActionState' } },
+    { impl = legacy.fill, deps = { 'uiAction' } },
+  },
+
+  -- COLOR
+  changeToolColor = {
+    { impl = wrapper.changeToolColor, deps = { 'changeToolColor' } },
+  },
+
+  -- EDITING
+  delete = {
+    { impl = wrapper.delete, deps = { 'activateAction' } },
+    { impl = legacy.delete, deps = { 'uiAction' } },
+  },
+  undo = {
+    { impl = wrapper.undo, deps = { 'activateAction' } },
+    { impl = legacy.undo, deps = { 'uiAction' } },
+  },
+  redo = {
+    { impl = wrapper.redo, deps = { 'activateAction' } },
+    { impl = legacy.redo, deps = { 'uiAction' } },
+  },
+
+  -- ZOOM
+  zoomIn = {
+    { impl = wrapper.zoomIn, deps = { 'activateAction' } },
+    { impl = legacy.zoomIn, deps = { 'uiAction' } },
+  },
+  zoomOut = {
+    { impl = wrapper.zoomOut, deps = { 'activateAction' } },
+    { impl = legacy.zoomOut, deps = { 'uiAction' } },
+  },
+
+  -- PAGE MANAGEMENT
+  newBefore = {
+    { impl = wrapper.newBefore, deps = { 'activateAction' } },
+    { impl = legacy.newBefore, deps = { 'sidebarAction' } },
+  },
+  newAfter = {
+    { impl = wrapper.newAfter, deps = { 'activateAction' } },
+    { impl = legacy.newAfter, deps = { 'sidebarAction' } },
+  },
+  copyPage = {
+    { impl = wrapper.copyPage, deps = { 'activateAction' } },
+    { impl = legacy.copyPage, deps = { 'sidebarAction' } },
+  },
+  deletePage = {
+    { impl = wrapper.deletePage, deps = { 'activateAction' } },
+    { impl = legacy.deletePage, deps = { 'uiAction' } },
+  },
+  moveUp = {
+    { impl = wrapper.moveUp, deps = { 'activateAction' } },
+    { impl = legacy.moveUp, deps = { 'sidebarAction' } },
+  },
+  moveDown = {
+    { impl = wrapper.moveDown, deps = { 'activateAction' } },
+    { impl = legacy.moveDown, deps = { 'sidebarAction' } },
+  },
+
+  -- LAYER MANAGEMENT
+  newLayer = {
+    { impl = wrapper.newLayer, deps = { 'activateAction' } },
+    { impl = legacy.newLayer, deps = { 'uiAction' } },
+  },
+  deleteLayer = {
+    { impl = wrapper.deleteLayer, deps = { 'activateAction' } },
+    { impl = legacy.deleteLayer, deps = { 'uiAction' } },
+  },
+  layerDown = {
+    { impl = wrapper.layerDown, deps = { 'activateAction' } },
+    { impl = legacy.layerDown, deps = { 'uiAction' } },
+  },
+  layerUp = {
+    { impl = wrapper.layerUp, deps = { 'activateAction' } },
+    { impl = legacy.layerUp, deps = { 'uiAction' } },
+  },
+
+  -- NAVIGATION
+  currentPage = {
+    { impl = wrapper.currentPage, deps = { 'getDocumentStructure' } },
+  },
+  goToFirstPage = {
+    { impl = wrapper.goToFirstPage, deps = { 'scrollToPage' } },
+  },
+  goToLastPage = {
+    { impl = wrapper.goToLastPage, deps = { 'getDocumentStructure', 'scrollToPage' } },
+  },
+  goToPage = {
+    { impl = wrapper.goToPage, deps = { 'scrollToPage' } },
+  },
+  goToTop = {
+    { impl = wrapper.goToTop, deps = { 'scrollToPos' } },
+  },
+  goToBottom = {
+    { impl = wrapper.goToBottom, deps = { 'getDocumentStructure', 'scrollToPos' } },
+  },
+  goToPos = {
+    { impl = wrapper.goToPos, deps = { 'scrollToPos' } },
+  },
+  scrollPageUp = {
+    { impl = wrapper.scrollPageUp, deps = { 'scrollToPage' } },
+  },
+  scrollPageDown = {
+    { impl = wrapper.scrollPageDown, deps = { 'scrollToPage' } },
+  },
+
+  -- BACKGROUND
+  plainBG = {
+    { impl = wrapper.plainBG, deps = { 'changeCurrentPageBackground' } },
+  },
+  ruledBG = {
+    { impl = wrapper.ruledBG, deps = { 'changeCurrentPageBackground' } },
+  },
+  graphBG = {
+    { impl = wrapper.graphBG, deps = { 'changeCurrentPageBackground' } },
+  },
+  dottedGraphBG = {
+    { impl = wrapper.dottedGraphBG, deps = { 'changeCurrentPageBackground' } },
+  },
+  isometricGraphBG = {
+    { impl = wrapper.isometricGraphBG, deps = { 'changeCurrentPageBackground' } },
+  },
+  isometricDottedGraphBG = {
+    { impl = wrapper.isometricDottedGraphBG, deps = { 'changeCurrentPageBackground' } },
+  },
+
+  -- FILES
+  open = {
+    { impl = wrapper.open, deps = { 'activateAction' } },
+    { impl = legacy.open, deps = { 'uiAction' } },
+  },
+  save = {
+    { impl = wrapper.save, deps = { 'activateAction' } },
+    { impl = legacy.save, deps = { 'uiAction' } },
+  },
+  saveAs = {
+    { impl = wrapper.saveAs, deps = { 'activateAction' } },
+    { impl = legacy.saveAs, deps = { 'uiAction' } },
+  },
+  annotatePDF = {
+    { impl = wrapper.annotatePDF, deps = { 'activateAction' } },
+    { impl = legacy.annotatePDF, deps = { 'uiAction' } },
+  },
+  exportAsPDF = {
+    { impl = wrapper.exportAsPDF, deps = { 'activateAction' } },
+    { impl = legacy.exportAsPDF, deps = { 'uiAction' } },
+  },
+
+  -- MISC
+  getToolInfo = {
+    { impl = wrapper.getToolInfo, deps = { 'getToolInfo' } },
+  },
 }

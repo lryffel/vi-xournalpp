@@ -431,9 +431,11 @@ keybindings = {
     buttons = { 'd' },
     modes = { 'page' },
     call = function()
-      result = app.msgbox('Do you really want to delete this page?', { [1] = 'Yes', [2] = 'No' })
+      --- TODO this is deprecated, should be added to legacy, add new entry in wrapper and registry
+      local result =
+        app.msgbox('Do you really want to delete this page?', { [1] = 'Yes', [2] = 'No' })
       if result == 1 then
-        clickDeletePage()
+        api.deletePage()
       end
     end,
   },
@@ -441,34 +443,36 @@ keybindings = {
     description = 'Move Up',
     buttons = { 'w' },
     modes = { 'page' },
-    call = clickMoveUp,
+    call = api.moveUp,
   },
   moveDown = {
     description = 'Move Down',
     buttons = { 's' },
     modes = { 'page' },
-    call = clickMoveDown,
+    call = api.moveDown,
   },
   newBefore = {
     description = 'New Before',
     buttons = { '<Shift>a' },
     modes = { 'page' },
-    call = clickNewBefore,
+    call = api.newBefore,
   },
   newAfter = {
     description = 'New After',
     buttons = { 'a' },
     modes = { 'page' },
-    call = clickNewAfter,
+    call = api.newAfter,
   },
   deleteLayer = {
     description = 'Delete Layer',
     buttons = { 'x' },
     modes = { 'page' },
     call = function()
-      result = app.msgbox('Do you really want to delete this layer?', { [1] = 'Yes', [2] = 'No' })
+      --- TODO this is deprecated, should be added to legacy, add new entry in wrapper and registry
+      local result =
+        app.msgbox('Do you really want to delete this layer?', { [1] = 'Yes', [2] = 'No' })
       if result == 1 then
-        clickDeleteLayer()
+        api.deleteLayer()
       end
     end,
   },
@@ -476,43 +480,43 @@ keybindings = {
     description = 'NewLayer',
     buttons = { 'y' },
     modes = { 'page' },
-    call = clickNewLayer,
+    call = api.newLayer,
   },
   ruledBG = {
     description = 'Ruled background',
     buttons = { 'f' },
     modes = { 'page' },
-    call = clickRuledBG,
+    call = api.ruledBG,
   },
   graphBG = {
     description = 'Graph background',
     buttons = { 'g' },
     modes = { 'page' },
-    call = clickGraphBG,
+    call = api.graphBG,
   },
   isoGraphBG = {
     description = 'Isometric graph background',
     buttons = { 'r' },
     modes = { 'page' },
-    call = clickIsometricGraphBG,
+    call = api.isometricGraphBG,
   },
   dottedGraphBG = {
     description = 'Dotted background',
     buttons = { 'v' },
     modes = { 'page' },
-    call = clickDottedGraphBG,
+    call = api.dottedGraphBG,
   },
   isodottedGraphBG = {
     description = 'Isometric dotted background',
     buttons = { 'b' },
     modes = { 'page' },
-    call = clickIsometricDottedGraphBG,
+    call = api.isometricDottedGraphBG,
   },
   plainBG = {
     description = 'Plain background',
     buttons = { 'n' },
     modes = { 'page' },
-    call = clickPlainBG,
+    call = api.plainBG,
   },
 
   -- Navigation
@@ -521,8 +525,8 @@ keybindings = {
     buttons = { '<Shift>g', 'e' },
     modes = { 'navigation' },
     call = function()
-      lastPage = currentPage()
-      clickGoToLastPage()
+      lastPage = api.currentPage()
+      api.goToLastPage()
     end,
   },
   goToFirstPage = {
@@ -530,41 +534,41 @@ keybindings = {
     buttons = { 'g' },
     modes = { 'navigation' },
     call = function()
-      lastPage = currentPage()
-      clickGoToFirstPage()
+      lastPage = api.currentPage()
+      api.goToFirstPage()
     end,
   },
   goToTop = {
     description = 'Go to top',
     buttons = { '<Shift>b' },
     modes = { 'navigation' },
-    call = clickGoToTop,
+    call = api.goToTop,
   },
   goToBottom = {
     description = 'Go to bottom',
     buttons = { 'b' },
     modes = { 'navigation' },
-    call = clickGoToBottom,
+    call = api.goToBottom,
   },
   scrollPageDown = {
     description = 'Scroll page down',
     buttons = { 's' },
     modes = { 'navigation' },
-    call = clickScrollPageDown,
+    call = api.scrollPageDown,
   },
   scrollPageUp = {
     description = 'Scroll page up',
     buttons = { 'w' },
     modes = { 'navigation' },
-    call = clickScrollPageUp,
+    call = api.scrollPageUp,
   },
   goBack = {
     description = 'Go back to last visited page',
     buttons = { 'a' },
     modes = { 'navigation' },
     call = function()
-      cur = currentPage()
-      goToPage(lastPage)
+      local cur = api.currentPage()
+      api.goToPage(lastPage)
       lastPage = cur
     end,
   },
@@ -572,13 +576,13 @@ keybindings = {
     description = 'Layer up',
     buttons = { 'y' },
     modes = { 'navigation' },
-    call = clickLayerUp,
+    call = api.layerUp,
   },
   layerDown = {
     description = 'Layer Down',
     buttons = { 'x' },
     modes = { 'navigation' },
-    call = clickLayerDown,
+    call = api.layerDown,
   },
 
   -- Files
@@ -586,31 +590,31 @@ keybindings = {
     description = 'Annotate PDF',
     buttons = { 'a', 'o' },
     modes = { 'file' },
-    call = clickAnnotatePDF,
+    call = api.annotatePDF,
   },
   exportAsPDF = {
     description = 'Export as PDF',
     buttons = { 'e' },
     modes = { 'file' },
-    call = clickExportAsPDF,
+    call = api.exportAsPDF,
   },
   save = {
     description = 'Save file',
     buttons = { 's', 'w' },
     modes = { 'file' },
-    call = clickSave,
+    call = api.save,
   },
   saveAs = {
     description = 'Save file as ...',
     buttons = { '<Shift>s', '<Shift>w' },
     modes = { 'file' },
-    call = clickSave,
+    call = api.saveAs,
   },
   open = {
     description = 'Open file',
     buttons = { 'f' },
     modes = { 'file' },
-    call = clickOpen,
+    call = api.open,
   },
 
   -- Visual
@@ -618,19 +622,19 @@ keybindings = {
     description = 'Select Region',
     buttons = { 's' },
     modes = { 'visual' },
-    call = clickSelectRegion,
+    call = api.selectRegion,
   },
   selectRectangle = {
     description = 'Select Rectangle',
     buttons = { 'a', 'r' },
     modes = { 'visual' },
-    call = clickSelectRectangle,
+    call = api.selectRectangle,
   },
   selectObject = {
     description = 'Select Object',
     buttons = { 'f', 'g' },
     modes = { 'visual' },
-    call = clickSelectObject,
+    call = api.selectObject,
   },
 }
 
@@ -641,5 +645,5 @@ function cleanShape()
   api.rectangle(false)
   api.ellipse(false)
   api.spline(false)
-  clickFill(false)
+  api.fill(false)
 end
