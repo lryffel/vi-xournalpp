@@ -332,6 +332,12 @@ return {
     { impl = legacy.exportAsPDF, deps = { 'uiAction' } },
   },
 
+  -- DIALOG
+  openDialog = {
+    { impl = wrapper.openDialog, deps = { 'openDialog' } },
+    { impl = legacy.msgbox, deps = { 'msgbox' } },
+  },
+
   -- MISC
   getToolInfo = {
     { impl = wrapper.getToolInfo, deps = { 'getToolInfo' } },

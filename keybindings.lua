@@ -11,6 +11,7 @@ ALL_MODES = {
   'visual',
   'resize',
 }
+
 --------------------
 -- KEYBINDINGS:   --
 --------------------
@@ -431,12 +432,16 @@ keybindings = {
     buttons = { 'd' },
     modes = { 'page' },
     call = function()
-      --- TODO this is deprecated, should be added to legacy, add new entry in wrapper and registry
-      local result =
-        app.msgbox('Do you really want to delete this page?', { [1] = 'Yes', [2] = 'No' })
-      if result == 1 then
-        api.deletePage()
-      end
+      api.openDialog(
+        'Do you really want to delete this page?',
+        { [1] = 'Yes', [2] = 'No' },
+        function(button)
+          if button == 1 then
+            api.deletePage()
+          end
+        end,
+        false
+      )
     end,
   },
   moveUp = {
@@ -468,12 +473,16 @@ keybindings = {
     buttons = { 'x' },
     modes = { 'page' },
     call = function()
-      --- TODO this is deprecated, should be added to legacy, add new entry in wrapper and registry
-      local result =
-        app.msgbox('Do you really want to delete this layer?', { [1] = 'Yes', [2] = 'No' })
-      if result == 1 then
-        api.deleteLayer()
-      end
+      api.openDialog(
+        'Do you really want to delete this layer?',
+        { [1] = 'Yes', [2] = 'No' },
+        function(button)
+          if button == 1 then
+            api.deleteLayer()
+          end
+        end,
+        false
+      )
     end,
   },
   newLayer = {

@@ -2,6 +2,9 @@
 -- This module checks which APIs and constants are available at runtime
 -- Results are cached once at initialization
 
+local utils = require('utils')
+local log = utils.log
+
 local capabilities = {}
 local capability_cache = nil
 
@@ -146,8 +149,8 @@ function capabilities.printCoverageSummary()
     end
   end
 
-  print(
-    '[vi-xournalpp] API Coverage: '
+  log(
+    'API Coverage: '
       .. api_available
       .. '/'
       .. api_total
@@ -192,8 +195,8 @@ function capabilities.validateRegistry(registry)
     for i, impl_spec in ipairs(implementations) do
       for _, dep in ipairs(impl_spec.deps) do
         if cache[dep] == nil then
-          print(
-            '[vi-xournalpp] WARNING: Unknown dependency "'
+          log(
+            'WARNING: Unknown dependency "'
               .. dep
               .. '" in '
               .. func_name

@@ -1,6 +1,8 @@
 -- Main API module - dependency-based function resolution
 local capabilities = require('api.capabilities')
 local registry = require('api.registry')
+local utils = require('utils')
+local log = utils.log
 
 local verbose = false
 local ok, config = pcall(require, 'config')
@@ -10,13 +12,11 @@ end
 
 local function unsupported(func_name)
   return function()
-    print('[vi-xournalpp] ERROR: ' .. func_name .. '() is not supported on this Xournal++ version')
-    print('[vi-xournalpp] Please update Xournal++ to use this feature.')
-    print('[vi-xournalpp] Installation guide: https://xournalpp.github.io/installation/')
-    print('[vi-xournalpp] Releases: https://github.com/xournalpp/xournalpp/releases')
-    print(
-      '[vi-xournalpp] Nightly builds: https://github.com/xournalpp/xournalpp/releases/tag/nightly'
-    )
+    log('ERROR: ' .. func_name .. '() is not supported on this Xournal++ version')
+    log('Please update Xournal++ to use this feature.')
+    log('Installation guide: https://xournalpp.github.io/installation/')
+    log('Releases: https://github.com/xournalpp/xournalpp/releases')
+    log('Nightly builds: https://github.com/xournalpp/xournalpp/releases/tag/nightly')
   end
 end
 
@@ -33,7 +33,7 @@ end
 local api = {}
 
 if verbose then
-  print('[vi-xournalpp] Resolving API functions...')
+  log('Resolving API functions...')
 end
 
 capabilities.validateRegistry(registry)
@@ -43,14 +43,14 @@ for func_name, implementations in pairs(registry) do
 end
 
 if verbose then
-  print('[vi-xournalpp] API resolution complete')
+  log('API resolution complete')
   capabilities.printCoverageSummary()
 end
 
 setmetatable(api, {
   __index = function(_, key)
     return function()
-      print('[vi-xournalpp] WARNING: Function "' .. key .. '" not available in current API')
+      log('WARNING: Function "' .. key .. '" not available in current API')
     end
   end,
 })

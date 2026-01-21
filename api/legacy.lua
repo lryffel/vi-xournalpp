@@ -64,7 +64,7 @@ legacy.spline = function(enabled)
 end
 
 legacy.fill = function(enabled)
-  app.uiAction({ action = 'ACTION_TOOL_FILL', selection = true, enabled = enabled })
+  app.uiAction({ action = 'ACTION_TOOL_FILL', enabled = enabled })
 end
 
 -- LINE WIDTH
@@ -188,6 +188,15 @@ end
 
 legacy.exportAsPDF = function()
   app.uiAction({ action = 'ACTION_EXPORT_AS_PDF' })
+end
+
+-- DIALOG
+legacy.msgbox = function(message, options, callback)
+  local result = app.msgbox(message, options)
+  if type(callback) == 'function' then
+    callback(result)
+  end
+  return result
 end
 
 return legacy

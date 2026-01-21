@@ -2,6 +2,9 @@
 local script_path = debug.getinfo(1, 'S').source:match('@?(.*/)') or './'
 package.path = script_path .. '?.lua;' .. script_path .. '?/init.lua;' .. package.path
 
+local utils = require('utils')
+local log = utils.log
+
 local api = require('api')
 local registry = require('api.registry')
 require('keybindings')
@@ -12,7 +15,7 @@ local function apply_config()
   local success, config = pcall(require, 'config')
   if not success or type(config) ~= 'table' then
     if success and type(config) ~= 'table' then
-      print('[vi-xournalpp] config.lua exists but does not return a table')
+      log('config.lua exists but does not return a table')
     end
     return
   end
@@ -22,7 +25,7 @@ local function apply_config()
   local key_overrides = config.key_overrides or {}
 
   if not layout_map and layout ~= 'qwerty' then
-    print("vi-xournalpp: Unknown layout '" .. layout .. "', using qwerty.")
+    log("Unknown layout '" .. layout .. "', using qwerty.")
     layout_map = config.layout_map and config.layout_map.qwerty
   end
 
@@ -68,9 +71,9 @@ function initUi()
   end
 
   if #skipped > 0 then
-    print('[vi-xournalpp] Skipped ' .. #skipped .. ' keybindings with missing call functions:')
+    log('Skipped ' .. #skipped .. ' keybindings with missing call functions:')
     for _, name in ipairs(skipped) do
-      print('[vi-xournalpp]   - ' .. name)
+      log('  - ' .. name)
     end
   end
 end

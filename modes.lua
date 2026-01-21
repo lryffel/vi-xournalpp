@@ -1,4 +1,7 @@
 local api = require('api')
+local utils = require('utils')
+local log = utils.log
+
 require('colors')
 require('keybindings')
 
@@ -12,9 +15,9 @@ function handle(key)
       if binding.call then
         binding.call()
       else
-        print('[vi-xournalpp] WARNING: No call function for ' .. (binding.description or 'unknown'))
+        log('WARNING: No call function for ' .. (binding.description or 'unknown'))
       end
-      print(binding.description)
+      log(binding.description)
       break
     end
   end

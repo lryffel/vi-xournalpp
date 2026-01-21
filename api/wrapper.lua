@@ -1,5 +1,8 @@
 -- API implementation wrapper
 
+local utils = require('utils')
+local log = utils.log
+
 local wrapper = {}
 
 -- TOOLS
@@ -41,32 +44,27 @@ wrapper.selectObject = function()
 end
 
 -- SHAPES
-wrapper.ruler = function()
-  app.activateAction('tool-draw-line')
+wrapper.ruler = function(enabled)
+  app.changeActionState('tool-draw-line', enabled)
 end
 
-wrapper.arrow = function()
-  app.activateAction('tool-draw-arrow')
+wrapper.arrow = function(enabled)
+  app.changeActionState('tool-draw-arrow', enabled)
 end
 
-wrapper.rectangle = function()
-  app.activateAction('tool-draw-rectangle')
+wrapper.rectangle = function(enabled)
+  app.changeActionState('tool-draw-rectangle', enabled)
 end
 
-wrapper.ellipse = function()
-  app.activateAction('tool-draw-ellipse')
+wrapper.ellipse = function(enabled)
+  app.changeActionState('tool-draw-ellipse', enabled)
 end
 
-wrapper.spline = function()
-  app.activateAction('tool-draw-spline')
+wrapper.spline = function(enabled)
+  app.changeActionState('tool-draw-spline', enabled)
 end
 
 wrapper.fill = function(enabled)
-  ---TODO find the equivalent
-  -- app.uiAction({ action = 'ACTION_TOOL_FILL', selection = true, enabled = enabled })
-  -- we gotta figure out how it works by testing or reading the src code
-  -- I think it might be a toggle on its own or it takes an input
-  -- this is api is confusing tbh
   app.changeActionState('tool-fill', enabled)
 end
 
@@ -118,7 +116,7 @@ wrapper.changeToolColor = function(color)
   end)
 
   if not ok then
-    print(toolName .. ' does not support color')
+    log(toolName .. ' does not support color')
   end
 end
 
@@ -273,6 +271,20 @@ end
 
 wrapper.exportAsPDF = function()
   app.activateAction('export-as-pdf')
+end
+
+-- DIALOG
+wrapper.openDialog = function(message, options, callback, isError)
+  if type(callback) == 'function' then
+    local callbackName = '__xpp_dialog_cb_' .. tostring({}):sub(8)
+    _G[callbackName] = function(button)
+      callback(button)
+      _G[callbackName] = nil -- cleanup after execution
+    end
+    app.openDialog(message, options, callbackName, isError)
+  else
+    app.openDialog(message, options, callback or '', isError)
+  end
 end
 
 -- MISC
