@@ -89,8 +89,14 @@ return {
     },
   },
   highlighter = {
-    { impl = wrapper.highlighter, deps = {} },
-    { impl = legacy.highlighter, deps = {} },
+    {
+      impl = wrapper.highlighter,
+      deps = { 'changeActionState', 'app.C.Tool_highlighter' },
+    },
+    {
+      impl = legacy.highlighter,
+      deps = { 'uiAction' },
+    },
   },
   hand = {
     { impl = wrapper.hand, deps = { 'changeActionState', 'app.C.Tool_hand' } },

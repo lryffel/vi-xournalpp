@@ -1,4 +1,3 @@
-local api = require('api')
 local utils = require('utils')
 local log = utils.log
 

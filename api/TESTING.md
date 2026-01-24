@@ -24,306 +24,249 @@
 ## Checklist
 
 - [ ] pen
-
-  - [x] Wrapper
-  - [ ] legacy
+  - [ ] Wrapper
+  - [x] legacy
 
 - [ ] eraser
-
-  - [x] Wrapper
-  - [ ] legacy
+  - [ ] Wrapper
+  - [x] legacy
 
 - [ ] highlighter
-
-  - [x] Wrapper
-  - [ ] legacy
+  - [ ] Wrapper
+  - [x] legacy
 
 - [ ] hand
-
-  - [x] Wrapper
-  - [ ] legacy
+  - [ ] Wrapper
+  - [x] legacy
 
 - [ ] text
-
-  - [x] Wrapper
-  - [ ] legacy
+  - [ ] Wrapper
+  - [x] legacy
 
 - [ ] tex
-
-  - [x] Wrapper
+  - [ ] Wrapper
   - [ ] legacy
 
 - [ ] selectRegion
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] selectRectangle
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] selectObject
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] ruler
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] arrow
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] rectangle
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] ellipse
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] spline
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] fill
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] veryFine
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] fine
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] medium
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] thick
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] veryThick
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] plain
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] dotted
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] dashed
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] dashDotted
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
-- [ ] changeToolColor
-
-  - [ ] Wrapper
-  - [ ] legacy
+- [x] changeToolColor
 
 - [ ] delete
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] undo
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] redo
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] zoomIn
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
+
+  zooming works but there is something wrong with the mappping
 
 - [ ] zoomOut
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] newBefore
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] newAfter
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] copyPage
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] deletePage
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] moveUp
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] moveDown
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] newLayer
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] deleteLayer
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] layerDown
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] layerUp
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] currentPage
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] goToFirstPage
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] goToLastPage
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] goToPage
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] goToTop
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] goToBottom
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] goToPos
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] scrollPageUp
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] scrollPageDown
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] plainBG
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] ruledBG
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] graphBG
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] dottedGraphBG
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] isometricGraphBG
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] isometricDottedGraphBG
-
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] open
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] save
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] saveAs
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] annotatePDF
-
   - [ ] Wrapper
   - [ ] legacy
 
 - [ ] exportAsPDF
-
   - [ ] Wrapper
   - [ ] legacy
 
-- [ ] getToolInfo
+- [ ] open Dialog
+  - [ ] Wrapper
+  - [x] legacy
 
+- [ ] getToolInfo
   - [ ] Wrapper
   - [ ] legacy

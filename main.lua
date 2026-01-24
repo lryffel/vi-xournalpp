@@ -5,8 +5,6 @@ package.path = script_path .. '?.lua;' .. script_path .. '?/init.lua;' .. packag
 local utils = require('utils')
 local log = utils.log
 
-local api = require('api')
-local registry = require('api.registry')
 require('keybindings')
 require('modes')
 
