@@ -1,26 +1,27 @@
-require('api')
-require('colors')
-require('keybindings')
+local utils = require('utils')
+local log = utils.log
+local state = require('state')
 
-function handle(key)
+local kb_module = require('keybindings')
+local keybindings = kb_module.bindings
+
+local function handle(key)
   for _, binding in pairs(keybindings) do
-    if contains(binding.buttons, key) and contains(binding.modes, currentMode) then
-      -- automatically return to tool mode from all other modes
-      if currentMode ~= 'tool' and not sticky then
-        currentMode = 'tool'
+    if binding.button_set[key] and binding.mode_set[state.currentMode] then
+      if state.currentMode ~= 'tool' and not state.sticky then
+        state.currentMode = 'tool'
       end
-      binding.call()
-      print(binding.description)
+
+      if binding.call then
+        binding.call()
+      else
+        log('WARNING: No call function for ' .. (binding.description or 'unknown'))
+      end
+
+      log(binding.description)
       break
     end
   end
 end
 
--- checks whether element is in list (slightly hacky)
-function contains(list, element)
-  local set = {}
-  for _, l in ipairs(list) do
-    set[l] = true
-  end
-  return set[element]
-end
+return handle
