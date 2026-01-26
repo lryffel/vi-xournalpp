@@ -1,4 +1,6 @@
-require('keybindings')
+local kb_module = require('keybindings')
+local keybindings = kb_module.bindings
+local ALL_MODES = kb_module.ALL_MODES
 
 local bindings = {}
 
@@ -13,6 +15,9 @@ for _, binding in pairs(keybindings) do
 end
 
 local output_file = io.open('keybindings.md', 'w')
+if not output_file then
+  error('Failed to open keybindings.md for writing')
+end
 io.output(output_file)
 
 io.write('# Key bindings\n\n')

@@ -1,6 +1,8 @@
 local api = require('api')
+local state = require('state')
+local colors = require('colors')
 
-ALL_MODES = {
+local ALL_MODES = {
   'tool',
   'color',
   'shape',
@@ -15,7 +17,7 @@ ALL_MODES = {
 --------------------
 -- KEYBINDINGS:   --
 --------------------
-keybindings = {
+local keybindings = {
   -- Tools
   pen = {
     description = 'Pen',
@@ -86,8 +88,8 @@ keybindings = {
     buttons = { 't' },
     modes = ALL_MODES,
     call = function()
-      currentMode = 'tool'
-      sticky = false
+      state.currentMode = 'tool'
+      state.sticky = false
     end,
   },
   color = {
@@ -95,7 +97,7 @@ keybindings = {
     buttons = { 'c' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'color'
+      state.currentMode = 'color'
     end,
   },
   stickyColor = {
@@ -103,8 +105,8 @@ keybindings = {
     buttons = { '<Shift>c' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'color'
-      sticky = true
+      state.currentMode = 'color'
+      state.sticky = true
     end,
   },
   shape = {
@@ -112,7 +114,7 @@ keybindings = {
     buttons = { 'a' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'shape'
+      state.currentMode = 'shape'
     end,
   },
   stickyShape = {
@@ -120,8 +122,8 @@ keybindings = {
     buttons = { '<Shift>a' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'shape'
-      sticky = true
+      state.currentMode = 'shape'
+      state.sticky = true
     end,
   },
   linestyle = {
@@ -129,7 +131,7 @@ keybindings = {
     buttons = { 'q' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'linestyle'
+      state.currentMode = 'linestyle'
     end,
   },
   stickyLinestyle = {
@@ -137,8 +139,8 @@ keybindings = {
     buttons = { '<Shift>q' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'linestyle'
-      sticky = true
+      state.currentMode = 'linestyle'
+      state.sticky = true
     end,
   },
   page = {
@@ -146,7 +148,7 @@ keybindings = {
     buttons = { 'b', 'p' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'page'
+      state.currentMode = 'page'
     end,
   },
   stickyPage = {
@@ -154,8 +156,8 @@ keybindings = {
     buttons = { '<Shift>b', '<Shift>p' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'page'
-      sticky = true
+      state.currentMode = 'page'
+      state.sticky = true
     end,
   },
   navigation = {
@@ -163,7 +165,7 @@ keybindings = {
     buttons = { 'g' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'navigation'
+      state.currentMode = 'navigation'
     end,
   },
   stickyNavigation = {
@@ -171,8 +173,8 @@ keybindings = {
     buttons = { '<Shift>g' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'navigation'
-      sticky = true
+      state.currentMode = 'navigation'
+      state.sticky = true
     end,
   },
   file = {
@@ -180,7 +182,7 @@ keybindings = {
     buttons = { 'y' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'file'
+      state.currentMode = 'file'
     end,
   },
   stickyFile = {
@@ -188,8 +190,8 @@ keybindings = {
     buttons = { '<Shift>y' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'file'
-      sticky = true
+      state.currentMode = 'file'
+      state.sticky = true
     end,
   },
   visual = {
@@ -197,7 +199,7 @@ keybindings = {
     buttons = { 'v' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'visual'
+      state.currentMode = 'visual'
     end,
   },
   stickyVisual = {
@@ -205,8 +207,8 @@ keybindings = {
     buttons = { '<Shift>v' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'visual'
-      sticky = true
+      state.currentMode = 'visual'
+      state.sticky = true
     end,
   },
   resize = {
@@ -214,7 +216,7 @@ keybindings = {
     buttons = { '<Shift>F' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'resize'
+      state.currentMode = 'resize'
     end,
   },
 
@@ -281,7 +283,7 @@ keybindings = {
     buttons = { 'x' },
     modes = { 'color' },
     call = function()
-      api.changeToolColor(blackColor)
+      api.changeToolColor(colors.black)
     end,
   },
   white = {
@@ -289,7 +291,7 @@ keybindings = {
     buttons = { 'w' },
     modes = { 'color' },
     call = function()
-      api.changeToolColor(whiteColor)
+      api.changeToolColor(colors.white)
     end,
   },
   pink = {
@@ -297,7 +299,7 @@ keybindings = {
     buttons = { 'q' },
     modes = { 'color' },
     call = function()
-      api.changeToolColor(pinkColor)
+      api.changeToolColor(colors.pink)
     end,
   },
   red = {
@@ -305,7 +307,7 @@ keybindings = {
     buttons = { 'r' },
     modes = { 'color' },
     call = function()
-      api.changeToolColor(redColor)
+      api.changeToolColor(colors.red)
     end,
   },
   orange = {
@@ -313,7 +315,7 @@ keybindings = {
     buttons = { 'o' },
     modes = { 'color' },
     call = function()
-      api.changeToolColor(orangeColor)
+      api.changeToolColor(colors.orange)
     end,
   },
   yellow = {
@@ -321,7 +323,7 @@ keybindings = {
     buttons = { 'y' },
     modes = { 'color' },
     call = function()
-      api.changeToolColor(yellowColor)
+      api.changeToolColor(colors.yellow)
     end,
   },
   green = {
@@ -329,7 +331,7 @@ keybindings = {
     buttons = { 'g' },
     modes = { 'color' },
     call = function()
-      api.changeToolColor(greenColor)
+      api.changeToolColor(colors.green)
     end,
   },
   cyan = {
@@ -337,7 +339,7 @@ keybindings = {
     buttons = { 'c' },
     modes = { 'color' },
     call = function()
-      api.changeToolColor(cyanColor)
+      api.changeToolColor(colors.cyan)
     end,
   },
   blue = {
@@ -345,7 +347,7 @@ keybindings = {
     buttons = { 'b' },
     modes = { 'color' },
     call = function()
-      api.changeToolColor(blueColor)
+      api.changeToolColor(colors.blue)
     end,
   },
   purple = {
@@ -353,7 +355,7 @@ keybindings = {
     buttons = { 'p', 'a' },
     modes = { 'color' },
     call = function()
-      api.changeToolColor(purpleColor)
+      api.changeToolColor(colors.purple)
     end,
   },
 
@@ -534,7 +536,7 @@ keybindings = {
     buttons = { '<Shift>g', 'e' },
     modes = { 'navigation' },
     call = function()
-      lastPage = api.currentPage()
+      state.lastPage = api.currentPage()
       api.goToLastPage()
     end,
   },
@@ -543,7 +545,7 @@ keybindings = {
     buttons = { 'g' },
     modes = { 'navigation' },
     call = function()
-      lastPage = api.currentPage()
+      state.lastPage = api.currentPage()
       api.goToFirstPage()
     end,
   },
@@ -577,8 +579,8 @@ keybindings = {
     modes = { 'navigation' },
     call = function()
       local cur = api.currentPage()
-      api.goToPage(lastPage)
-      lastPage = cur
+      api.goToPage(state.lastPage)
+      state.lastPage = cur
     end,
   },
   layerUp = {
@@ -648,7 +650,7 @@ keybindings = {
 }
 
 -- helper functions
-function cleanShape()
+local function cleanShape()
   api.ruler(false)
   api.arrow(false)
   api.rectangle(false)
@@ -656,3 +658,8 @@ function cleanShape()
   api.spline(false)
   api.fill(false)
 end
+
+return {
+  bindings = keybindings,
+  ALL_MODES = ALL_MODES,
+}
