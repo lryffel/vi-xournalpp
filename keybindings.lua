@@ -1,7 +1,8 @@
--- require "modes"
-require('api')
+local api = require('api')
+local state = require('state')
+local colors = require('colors')
 
-ALL_MODES = {
+local ALL_MODES = {
   'tool',
   'color',
   'shape',
@@ -12,69 +13,59 @@ ALL_MODES = {
   'visual',
   'resize',
 }
+
 --------------------
 -- KEYBINDINGS:   --
 --------------------
-keybindings = {
+local keybindings = {
   -- Tools
   pen = {
     description = 'Pen',
     buttons = { 'w' },
     modes = { 'tool' },
-    call = function()
-      clickPen()
-      cleanShape()
-      clickPlain()
-    end,
+    call = api.pen,
   },
   eraser = {
     description = 'Eraser',
     buttons = { 'e' },
     modes = { 'tool' },
-    call = function()
-      clickEraser()
-      cleanShape()
-    end,
+    call = api.eraser,
   },
   highlighter = {
     description = 'Highlighter',
     buttons = { 'f' },
     modes = { 'tool' },
-    call = function()
-      clickHighlighter()
-      cleanShape()
-      clickPlain()
-    end,
+    call = api.highlighter,
   },
   hand = {
     description = 'Hand',
     buttons = { '<Shift>d' },
     modes = { 'tool' },
-    call = clickHand,
+    call = api.hand,
   },
   selection = {
     description = 'Selection',
     buttons = { 's' },
     modes = { 'tool' },
-    call = clickSelectRegion,
+    call = api.selectRegion,
   },
   tex = {
     description = 'Tex',
     buttons = { 'i' },
     modes = { 'tool' },
-    call = clickTex,
+    call = api.tex,
   },
   text = {
     description = 'Text',
     buttons = { '<Shift>t', '<Shift>i' },
     modes = { 'tool' },
-    call = clickText,
+    call = api.text,
   },
   delete = {
     description = 'Delete',
     buttons = { 'x' },
     modes = { 'tool' },
-    call = clickDelete,
+    call = api.delete,
   },
 
   -- History
@@ -82,13 +73,13 @@ keybindings = {
     description = 'Undo',
     buttons = { 'd', 'u', 'z' },
     modes = { 'tool' },
-    call = clickUndo,
+    call = api.undo,
   },
   redo = {
     description = 'Redo',
     buttons = { 'r' },
     modes = { 'tool' },
-    call = clickRedo,
+    call = api.redo,
   },
 
   -- Mode Selection
@@ -97,8 +88,8 @@ keybindings = {
     buttons = { 't' },
     modes = ALL_MODES,
     call = function()
-      currentMode = 'tool'
-      sticky = false
+      state.currentMode = 'tool'
+      state.sticky = false
     end,
   },
   color = {
@@ -106,7 +97,7 @@ keybindings = {
     buttons = { 'c' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'color'
+      state.currentMode = 'color'
     end,
   },
   stickyColor = {
@@ -114,8 +105,8 @@ keybindings = {
     buttons = { '<Shift>c' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'color'
-      sticky = true
+      state.currentMode = 'color'
+      state.sticky = true
     end,
   },
   shape = {
@@ -123,7 +114,7 @@ keybindings = {
     buttons = { 'a' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'shape'
+      state.currentMode = 'shape'
     end,
   },
   stickyShape = {
@@ -131,8 +122,8 @@ keybindings = {
     buttons = { '<Shift>a' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'shape'
-      sticky = true
+      state.currentMode = 'shape'
+      state.sticky = true
     end,
   },
   linestyle = {
@@ -140,7 +131,7 @@ keybindings = {
     buttons = { 'q' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'linestyle'
+      state.currentMode = 'linestyle'
     end,
   },
   stickyLinestyle = {
@@ -148,8 +139,8 @@ keybindings = {
     buttons = { '<Shift>q' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'linestyle'
-      sticky = true
+      state.currentMode = 'linestyle'
+      state.sticky = true
     end,
   },
   page = {
@@ -157,7 +148,7 @@ keybindings = {
     buttons = { 'b', 'p' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'page'
+      state.currentMode = 'page'
     end,
   },
   stickyPage = {
@@ -165,8 +156,8 @@ keybindings = {
     buttons = { '<Shift>b', '<Shift>p' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'page'
-      sticky = true
+      state.currentMode = 'page'
+      state.sticky = true
     end,
   },
   navigation = {
@@ -174,7 +165,7 @@ keybindings = {
     buttons = { 'g' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'navigation'
+      state.currentMode = 'navigation'
     end,
   },
   stickyNavigation = {
@@ -182,8 +173,8 @@ keybindings = {
     buttons = { '<Shift>g' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'navigation'
-      sticky = true
+      state.currentMode = 'navigation'
+      state.sticky = true
     end,
   },
   file = {
@@ -191,7 +182,7 @@ keybindings = {
     buttons = { 'y' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'file'
+      state.currentMode = 'file'
     end,
   },
   stickyFile = {
@@ -199,8 +190,8 @@ keybindings = {
     buttons = { '<Shift>y' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'file'
-      sticky = true
+      state.currentMode = 'file'
+      state.sticky = true
     end,
   },
   visual = {
@@ -208,7 +199,7 @@ keybindings = {
     buttons = { 'v' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'visual'
+      state.currentMode = 'visual'
     end,
   },
   stickyVisual = {
@@ -216,8 +207,8 @@ keybindings = {
     buttons = { '<Shift>v' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'visual'
-      sticky = true
+      state.currentMode = 'visual'
+      state.sticky = true
     end,
   },
   resize = {
@@ -225,7 +216,7 @@ keybindings = {
     buttons = { '<Shift>F' },
     modes = { 'tool' },
     call = function()
-      currentMode = 'resize'
+      state.currentMode = 'resize'
     end,
   },
 
@@ -234,25 +225,25 @@ keybindings = {
     description = 'NewAfter',
     buttons = { 'n' },
     modes = { 'tool' },
-    call = clickNewAfter,
+    call = api.newAfter,
   },
   annotatePDFTool = {
     description = 'Annotate PDF',
     buttons = { 'o' },
     modes = { 'tool' },
-    call = clickAnnotatePDF,
+    call = api.annotatePDF,
   },
   zoomIn = {
     description = 'Zoom in',
     buttons = { 'greater', '<Shift>greater', 'plus', '<Shift>plus' },
     modes = { 'tool' },
-    call = clickZoomIn,
+    call = api.zoomIn,
   },
   zoomOut = {
     description = 'Zoom out',
     buttons = { 'minus', 'less' },
     modes = { 'tool' },
-    call = clickZoomOut,
+    call = api.zoomOut,
   },
 
   -- Thickness
@@ -260,31 +251,31 @@ keybindings = {
     description = 'Very Fine',
     buttons = { 'a' },
     modes = { 'resize' },
-    call = clickVeryFine,
+    call = api.veryFine,
   },
   fine = {
     description = 'Fine',
     buttons = { 's' },
     modes = { 'resize' },
-    call = clickFine,
+    call = api.fine,
   },
   medium = {
     description = 'Medium',
     buttons = { 'd' },
     modes = { 'resize' },
-    call = clickMedium,
+    call = api.medium,
   },
   thick = {
     description = 'Thick',
     buttons = { 'f' },
     modes = { 'resize' },
-    call = clickThick,
+    call = api.thick,
   },
   veryThick = {
     description = 'Very thick',
     buttons = { 'g' },
     modes = { 'resize' },
-    call = clickVeryThick,
+    call = api.veryThick,
   },
   -- Colors
   black = {
@@ -292,7 +283,7 @@ keybindings = {
     buttons = { 'x' },
     modes = { 'color' },
     call = function()
-      changeToolColor(blackColor)
+      api.changeToolColor(colors.black)
     end,
   },
   white = {
@@ -300,7 +291,7 @@ keybindings = {
     buttons = { 'w' },
     modes = { 'color' },
     call = function()
-      changeToolColor(whiteColor)
+      api.changeToolColor(colors.white)
     end,
   },
   pink = {
@@ -308,7 +299,7 @@ keybindings = {
     buttons = { 'q' },
     modes = { 'color' },
     call = function()
-      changeToolColor(pinkColor)
+      api.changeToolColor(colors.pink)
     end,
   },
   red = {
@@ -316,7 +307,7 @@ keybindings = {
     buttons = { 'r' },
     modes = { 'color' },
     call = function()
-      changeToolColor(redColor)
+      api.changeToolColor(colors.red)
     end,
   },
   orange = {
@@ -324,7 +315,7 @@ keybindings = {
     buttons = { 'o' },
     modes = { 'color' },
     call = function()
-      changeToolColor(orangeColor)
+      api.changeToolColor(colors.orange)
     end,
   },
   yellow = {
@@ -332,7 +323,7 @@ keybindings = {
     buttons = { 'y' },
     modes = { 'color' },
     call = function()
-      changeToolColor(yellowColor)
+      api.changeToolColor(colors.yellow)
     end,
   },
   green = {
@@ -340,7 +331,7 @@ keybindings = {
     buttons = { 'g' },
     modes = { 'color' },
     call = function()
-      changeToolColor(greenColor)
+      api.changeToolColor(colors.green)
     end,
   },
   cyan = {
@@ -348,7 +339,7 @@ keybindings = {
     buttons = { 'c' },
     modes = { 'color' },
     call = function()
-      changeToolColor(cyanColor)
+      api.changeToolColor(colors.cyan)
     end,
   },
   blue = {
@@ -356,7 +347,7 @@ keybindings = {
     buttons = { 'b' },
     modes = { 'color' },
     call = function()
-      changeToolColor(blueColor)
+      api.changeToolColor(colors.blue)
     end,
   },
   purple = {
@@ -364,7 +355,7 @@ keybindings = {
     buttons = { 'p', 'a' },
     modes = { 'color' },
     call = function()
-      changeToolColor(purpleColor)
+      api.changeToolColor(colors.purple)
     end,
   },
 
@@ -373,62 +364,62 @@ keybindings = {
     description = 'Ruler',
     buttons = { 's' },
     modes = { 'shape' },
-    call = clickRuler,
+    call = api.ruler,
   },
   arrow = {
     description = 'Arrow',
     buttons = { 'a' },
     modes = { 'shape' },
-    call = clickArrow,
+    call = api.arrow,
   },
   rectangle = {
     description = 'Rectangle',
     buttons = { 'r', 'c' },
     modes = { 'shape' },
-    call = clickRectangle,
+    call = api.rectangle,
   },
   ellipse = {
     description = 'Ellipse',
     buttons = { 'e' },
     modes = { 'shape' },
-    call = clickEllipse,
+    call = api.ellipse,
   },
   spline = {
     description = 'Spline',
     buttons = { 'b' },
     modes = { 'shape' },
-    call = clickSpline,
+    call = api.spline,
   },
   fill = {
     description = 'Fill',
     buttons = { 'f' },
     modes = { 'shape' },
-    call = clickFill,
+    call = api.fill,
   },
   -- Linestyles
   plain = {
     description = 'Plain',
     buttons = { 'a', 'i', 'p' },
     modes = { 'linestyle' },
-    call = clickPlain,
+    call = api.plain,
   },
   dashed = {
     description = 'Dashed',
     buttons = { 's' },
     modes = { 'linestyle' },
-    call = clickDashed,
+    call = api.dashed,
   },
   dotted = {
     description = 'Dotted',
     buttons = { 'd' },
     modes = { 'linestyle' },
-    call = clickDotted,
+    call = api.dotted,
   },
   dashDotted = {
     description = 'DashDotted',
     buttons = { 'f' },
     modes = { 'linestyle' },
-    call = clickDashDotted,
+    call = api.dashDotted,
   },
 
   -- Page
@@ -436,95 +427,107 @@ keybindings = {
     description = 'copyPage',
     buttons = { 'c' },
     modes = { 'page' },
-    call = clickCopyPage,
+    call = api.copyPage,
   },
   deletePage = {
     description = 'DeletePage',
     buttons = { 'd' },
     modes = { 'page' },
     call = function()
-      result = app.msgbox('Do you really want to delete this page?', { [1] = 'Yes', [2] = 'No' })
-      if result == 1 then
-        clickDeletePage()
-      end
+      api.openDialog(
+        'Do you really want to delete this page?',
+        { [1] = 'Yes', [2] = 'No' },
+        function(button)
+          if button == 1 then
+            api.deletePage()
+          end
+        end,
+        false
+      )
     end,
   },
   moveUp = {
     description = 'Move Up',
     buttons = { 'w' },
     modes = { 'page' },
-    call = clickMoveUp,
+    call = api.moveUp,
   },
   moveDown = {
     description = 'Move Down',
     buttons = { 's' },
     modes = { 'page' },
-    call = clickMoveDown,
+    call = api.moveDown,
   },
   newBefore = {
     description = 'New Before',
     buttons = { '<Shift>a' },
     modes = { 'page' },
-    call = clickNewBefore,
+    call = api.newBefore,
   },
   newAfter = {
     description = 'New After',
     buttons = { 'a' },
     modes = { 'page' },
-    call = clickNewAfter,
+    call = api.newAfter,
   },
   deleteLayer = {
     description = 'Delete Layer',
     buttons = { 'x' },
     modes = { 'page' },
     call = function()
-      result = app.msgbox('Do you really want to delete this layer?', { [1] = 'Yes', [2] = 'No' })
-      if result == 1 then
-        clickDeleteLayer()
-      end
+      api.openDialog(
+        'Do you really want to delete this layer?',
+        { [1] = 'Yes', [2] = 'No' },
+        function(button)
+          if button == 1 then
+            api.deleteLayer()
+          end
+        end,
+        false
+      )
     end,
   },
   newLayer = {
     description = 'NewLayer',
     buttons = { 'y' },
     modes = { 'page' },
-    call = clickNewLayer,
+    call = api.newLayer,
   },
   ruledBG = {
     description = 'Ruled background',
     buttons = { 'f' },
     modes = { 'page' },
-    call = clickRuledBG,
+    call = api.ruledBG,
   },
   graphBG = {
     description = 'Graph background',
     buttons = { 'g' },
     modes = { 'page' },
-    call = clickGraphBG,
+    call = api.graphBG,
   },
   isoGraphBG = {
     description = 'Isometric graph background',
     buttons = { 'r' },
     modes = { 'page' },
-    call = clickIsometricGraphBG,
+    call = api.isometricGraphBG,
   },
   dottedGraphBG = {
     description = 'Dotted background',
     buttons = { 'v' },
     modes = { 'page' },
-    call = clickDottedGraphBG,
+    call = api.dottedGraphBG,
   },
   isodottedGraphBG = {
     description = 'Isometric dotted background',
     buttons = { 'b' },
     modes = { 'page' },
-    call = clickIsometricDottedGraphBG,
+    call = api.isometricDottedGraphBG,
   },
   plainBG = {
     description = 'Plain background',
     buttons = { 'n' },
     modes = { 'page' },
-    call = clickPlainBG,
+    call = api.plainBG,
   },
 
   -- Navigation
@@ -533,8 +536,8 @@ keybindings = {
     buttons = { '<Shift>g', 'e' },
     modes = { 'navigation' },
     call = function()
-      lastPage = currentPage()
-      clickGoToLastPage()
+      state.lastPage = api.currentPage()
+      api.goToLastPage()
     end,
   },
   goToFirstPage = {
@@ -542,55 +545,55 @@ keybindings = {
     buttons = { 'g' },
     modes = { 'navigation' },
     call = function()
-      lastPage = currentPage()
-      clickGoToFirstPage()
+      state.lastPage = api.currentPage()
+      api.goToFirstPage()
     end,
   },
   goToTop = {
     description = 'Go to top',
     buttons = { '<Shift>b' },
     modes = { 'navigation' },
-    call = clickGoToTop,
+    call = api.goToTop,
   },
   goToBottom = {
     description = 'Go to bottom',
     buttons = { 'b' },
     modes = { 'navigation' },
-    call = clickGoToBottom,
+    call = api.goToBottom,
   },
   scrollPageDown = {
     description = 'Scroll page down',
     buttons = { 's' },
     modes = { 'navigation' },
-    call = clickScrollPageDown,
+    call = api.scrollPageDown,
   },
   scrollPageUp = {
     description = 'Scroll page up',
     buttons = { 'w' },
     modes = { 'navigation' },
-    call = clickScrollPageUp,
+    call = api.scrollPageUp,
   },
   goBack = {
     description = 'Go back to last visited page',
     buttons = { 'a' },
     modes = { 'navigation' },
     call = function()
-      cur = currentPage()
-      goToPage(lastPage)
-      lastPage = cur
+      local cur = api.currentPage()
+      api.goToPage(state.lastPage)
+      state.lastPage = cur
     end,
   },
   layerUp = {
     description = 'Layer up',
     buttons = { 'y' },
     modes = { 'navigation' },
-    call = clickLayerUp,
+    call = api.layerUp,
   },
   layerDown = {
     description = 'Layer Down',
     buttons = { 'x' },
     modes = { 'navigation' },
-    call = clickLayerDown,
+    call = api.layerDown,
   },
 
   -- Files
@@ -598,31 +601,31 @@ keybindings = {
     description = 'Annotate PDF',
     buttons = { 'a', 'o' },
     modes = { 'file' },
-    call = clickAnnotatePDF,
+    call = api.annotatePDF,
   },
   exportAsPDF = {
     description = 'Export as PDF',
     buttons = { 'e' },
     modes = { 'file' },
-    call = clickExportAsPDF,
+    call = api.exportAsPDF,
   },
   save = {
     description = 'Save file',
     buttons = { 's', 'w' },
     modes = { 'file' },
-    call = clickSave,
+    call = api.save,
   },
   saveAs = {
     description = 'Save file as ...',
     buttons = { '<Shift>s', '<Shift>w' },
     modes = { 'file' },
-    call = clickSave,
+    call = api.saveAs,
   },
   open = {
     description = 'Open file',
     buttons = { 'f' },
     modes = { 'file' },
-    call = clickOpen,
+    call = api.open,
   },
 
   -- Visual
@@ -630,28 +633,33 @@ keybindings = {
     description = 'Select Region',
     buttons = { 's' },
     modes = { 'visual' },
-    call = clickSelectRegion,
+    call = api.selectRegion,
   },
   selectRectangle = {
     description = 'Select Rectangle',
     buttons = { 'a', 'r' },
     modes = { 'visual' },
-    call = clickSelectRectangle,
+    call = api.selectRectangle,
   },
   selectObject = {
     description = 'Select Object',
     buttons = { 'f', 'g' },
     modes = { 'visual' },
-    call = clickSelectObject,
+    call = api.selectObject,
   },
 }
 
 -- helper functions
-function cleanShape()
-  clickRuler(false)
-  clickArrow(false)
-  clickRectangle(false)
-  clickEllipse(false)
-  clickSpline(false)
-  clickFill(false)
+local function cleanShape()
+  api.ruler(false)
+  api.arrow(false)
+  api.rectangle(false)
+  api.ellipse(false)
+  api.spline(false)
+  api.fill(false)
 end
+
+return {
+  bindings = keybindings,
+  ALL_MODES = ALL_MODES,
+}

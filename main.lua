@@ -1,14 +1,20 @@
-require('keybindings')
-require('modes')
+-- Add plugin directory to package path for module loading
+local script_path = debug.getinfo(1, 'S').source:match('@?(.*/)') or './'
+package.path = script_path .. '?.lua;' .. script_path .. '?/init.lua;' .. package.path
 
-f = {}
+local utils = require('utils')
+local log = utils.log
+
+local kb_module = require('keybindings')
+local keybindings = kb_module.bindings
+local handle = require('modes')
 
 -- Apply config if it exists
 local function apply_config()
   local success, config = pcall(require, 'config')
   if not success or type(config) ~= 'table' then
     if success and type(config) ~= 'table' then
-      print('vi-xournalpp: config.lua exists but does not return a table')
+      log('config.lua exists but does not return a table')
     end
     return
   end
@@ -18,7 +24,7 @@ local function apply_config()
   local key_overrides = config.key_overrides or {}
 
   if not layout_map and layout ~= 'qwerty' then
-    print("vi-xournalpp: Unknown layout '" .. layout .. "', using qwerty.")
+    log("Unknown layout '" .. layout .. "', using qwerty.")
     layout_map = config.layout_map and config.layout_map.qwerty
   end
 
@@ -38,26 +44,52 @@ end
 
 apply_config()
 
-function initUi()
-  index = 1
-  for _, binding in pairs(keybindings) do
-    for _, button in pairs(binding.buttons) do
-      for _, validMode in pairs(binding.modes) do
-        declaration = 'f' .. tostring(index) .. ' = function () handle("' .. button .. '") end'
-        defineFunction = load(declaration)
-        defineFunction()
-        app.registerUi({
-          ['menu'] = binding.description .. ' (' .. validMode .. ' mode)',
-          -- this doesn't work
-          ['callback'] = 'f' .. tostring(index),
-          ['accelerator'] = button,
-        })
-        index = index + 1
-      end
-    end
+for name, binding in pairs(keybindings) do
+  binding.button_set = utils.make_set(binding.buttons or {})
+  binding.mode_set = utils.make_set(binding.modes or {})
+end
+
+local all_buttons = {}
+function ViKey(mode)
+  local button = all_buttons[mode]
+  if button then
+    handle(button)
+  else
+    log('WARNING: Invalid mode index: ' .. tostring(mode))
   end
 end
 
-currentMode = 'tool'
-lastPage = 1
-sticky = false
+-- xournalpp require `initUi` as name
+---@diagnostic disable-next-line: lowercase-global
+function initUi()
+  local index = 1
+  local skipped = {}
+
+  for name, binding in pairs(keybindings) do
+    -- Skip keybindings with missing call functions
+    if not binding.call then
+      table.insert(skipped, name)
+    else
+      for _, button in pairs(binding.buttons) do
+        for _, validMode in pairs(binding.modes) do
+          all_buttons[index] = button
+
+          app.registerUi({
+            ['menu'] = binding.description .. ' (' .. validMode .. ' mode)',
+            ['callback'] = 'ViKey',
+            ['accelerator'] = button,
+            ['mode'] = index,
+          })
+          index = index + 1
+        end
+      end
+    end
+  end
+
+  if #skipped > 0 then
+    log('Skipped ' .. #skipped .. ' keybindings with missing call functions:')
+    for _, name in ipairs(skipped) do
+      log('  - ' .. name)
+    end
+  end
+end

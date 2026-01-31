@@ -1,0 +1,251 @@
+-- Capability checking system for dependency-based function resolution
+-- This module checks which APIs and constants are available at runtime
+-- Results are cached once at initialization
+
+local utils = require('utils')
+local log = utils.log
+
+local capabilities = {}
+local capability_cache = nil
+
+-- Helper: Check if an app.* function exists
+local function apiExists(name)
+  return app and type(app[name]) == 'function'
+end
+
+-- Helper: Check if app.C constants table exists
+local function constantsExist()
+  return app and app.C and type(app.C) == 'table'
+end
+
+-- Initialize capability cache by checking all possible dependencies
+local function initCapabilityCache()
+  if capability_cache then
+    return capability_cache
+  end
+
+  capability_cache = {}
+
+  -- Check app.* function APIs (from luapi_application.def.lua)
+  local api_functions = {
+    'activateAction',
+    'addImages',
+    'addSplines',
+    'addStrokes',
+    'addTexts',
+    'addToSelection',
+    'changeActionState',
+    'changeBackgroundPdfPageNr',
+    'changeCurrentPageBackground',
+    'changeToolColor',
+    'clearSelection',
+    'export',
+    'fileDialogOpen',
+    'fileDialogSave',
+    'getActionState',
+    'getColorPalette',
+    'getDisplayDpi',
+    'getDocumentStructure',
+    'getFilePath',
+    'getFolder',
+    'getFont',
+    'getFonts',
+    'getImages',
+    'getPageLabel',
+    'getSidebarPageNo',
+    'getStrokes',
+    'getTexts',
+    'getToolInfo',
+    'getZoom',
+    'glib_rename',
+    'layerAction',
+    'msgbox',
+    'openDialog',
+    'openFile',
+    'refreshPage',
+    'registerPlaceholder',
+    'registerUi',
+    'saveAs',
+    'scrollToPage',
+    'scrollToPos',
+    'setBackgroundName',
+    'setCurrentLayer',
+    'setCurrentLayerName',
+    'setCurrentPage',
+    'setFont',
+    'setLayerVisibility',
+    'setPageSize',
+    'setPlaceholderValue',
+    'setSidebarPageNo',
+    'setZoom',
+    'showFloatingToolbox',
+    'sidebarAction',
+    'uiAction',
+  }
+
+  for _, func_name in ipairs(api_functions) do
+    capability_cache[func_name] = apiExists(func_name)
+  end
+
+  -- Check app.C constants (each constant is a separate capability)
+  if constantsExist() then
+    -- Tool constants
+    local tool_constants = {
+      'Tool_pen',
+      'Tool_eraser',
+      'Tool_highlighter',
+      'Tool_selectRegion',
+      'Tool_selectRect',
+      'Tool_selectObject',
+      'Tool_hand',
+      'Tool_image',
+      'Tool_text',
+    }
+
+    for _, const_name in ipairs(tool_constants) do
+      local full_name = 'app.C.' .. const_name
+      capability_cache[full_name] = app.C[const_name] ~= nil
+    end
+
+    -- Size constants
+    local size_constants = {
+      'ToolSize_veryThin',
+      'ToolSize_thin',
+      'ToolSize_medium',
+      'ToolSize_thick',
+      'ToolSize_veryThick',
+    }
+
+    for _, const_name in ipairs(size_constants) do
+      local full_name = 'app.C.' .. const_name
+      capability_cache[full_name] = app.C[const_name] ~= nil
+    end
+  end
+
+  return capability_cache
+end
+
+-- Print a summary of available capabilities
+function capabilities.printCoverageSummary()
+  local cache = capability_cache or initCapabilityCache()
+
+  local api_available = 0
+  local api_total = 0
+  local constants_available = 0
+  local constants_total = 0
+
+  -- Count API functions
+  for key, value in pairs(cache) do
+    if not key:match('^app%.C%.') then
+      api_total = api_total + 1
+      if value then
+        api_available = api_available + 1
+      end
+    else
+      constants_total = constants_total + 1
+      if value then
+        constants_available = constants_available + 1
+      end
+    end
+  end
+
+  log(
+    'API Coverage: '
+      .. api_available
+      .. '/'
+      .. api_total
+      .. ' functions, '
+      .. constants_available
+      .. '/'
+      .. constants_total
+      .. ' constants'
+  )
+end
+
+-- Check if a capability is available
+-- Capability can be:
+--   - An app.* function name (e.g., 'activateAction')
+--   - An app.C.* constant (e.g., 'app.C.Tool_pen')
+function capabilities.hasCapability(capability_name)
+  local cache = capability_cache or initCapabilityCache()
+
+  local result = cache[capability_name]
+  if result == nil then
+    -- Unknown capability, default to false
+    return false
+  end
+
+  return result
+end
+
+-- Check if all capabilities in a list are available
+function capabilities.hasAllCapabilities(capability_list)
+  for _, cap in ipairs(capability_list) do
+    if not capabilities.hasCapability(cap) then
+      return false
+    end
+  end
+  return true
+end
+
+-- Validate registry dependencies and warn about unknown capabilities
+function capabilities.validateRegistry(registry)
+  local cache = capability_cache or initCapabilityCache()
+  for func_name, implementations in pairs(registry) do
+    -- Check: Multiple implementations should not have empty deps (except last fallback)
+    local num_implementations = #implementations
+
+    for i, impl_spec in ipairs(implementations) do
+      -- Check: impl must be a function
+      if type(impl_spec.impl) ~= 'function' then
+        log(
+          'ERROR: Invalid impl in '
+            .. func_name
+            .. ' implementation #'
+            .. i
+            .. ': expected function, got '
+            .. type(impl_spec.impl)
+        )
+      end
+
+      -- Check: deps must be a table
+      if type(impl_spec.deps) ~= 'table' then
+        log(
+          'ERROR: Invalid deps in '
+            .. func_name
+            .. ' implementation #'
+            .. i
+            .. ': expected table, got '
+            .. type(impl_spec.deps)
+        )
+      else
+        -- Check: Multiple implementations with empty deps (only last should be empty)
+        if num_implementations > 1 and #impl_spec.deps == 0 and i < num_implementations then
+          log(
+            'WARNING: '
+              .. func_name
+              .. ' implementation #'
+              .. i
+              .. ' has empty deps but is not the last implementation. This will always be selected.'
+          )
+        end
+
+        -- Check: Unknown dependencies
+        for _, dep in ipairs(impl_spec.deps) do
+          if cache[dep] == nil then
+            log(
+              'WARNING: Unknown dependency "'
+                .. dep
+                .. '" in '
+                .. func_name
+                .. ' implementation #'
+                .. i
+            )
+          end
+        end
+      end
+    end
+  end
+end
+
+return capabilities
