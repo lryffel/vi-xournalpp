@@ -1,7 +1,8 @@
 # vi-xournalpp
 
-This is a tiny plugin for [Xournal++](https://github.com/xournalpp/xournalpp),
-version 1.1.x and 1.2.x.
+A vi-inspired modal editing plugin for [Xournal++](https://github.com/xournalpp/xournalpp).
+
+Compatible with Xournal++ versions 1.1.x, 1.2.x, and 1.3.x.
 
 ## Installation
 
@@ -38,9 +39,10 @@ The second principle is broken for certain colors (e.g. `o`range).
 vi-xournalpp is centered around so-called modes. They give access to different
 sets of keybindings. This makes it possible for way more commands to be easily
 accessible from a limited region on the keyboard.
-Keybindings sorted by modes can be found in [keybinginds.md](keybindings.md).
+Keybindings sorted by modes can be found in [keybindings.md](keybindings.md).
 
-You can modify keybindings by editing [keybindings.lua](keybindings.lua) in your plugin
+You can modify keybindings by editing [keybindings.lua](keybindings.lua) in your
+plugin
 folder. If you want, you can then regenerate the markdown file by running
 [documentation.lua](documentation.lua) using your local lua interpreter.
 
@@ -101,6 +103,27 @@ _very fine_, _fine_, _medium_, _thick_, _very thick_,
 accessed by `a`, `s`, `d`, `f`, `g`, respectively.
 
 ## Configuration
+
+### Keyboard Layout
+
+vi-xournalpp supports multiple keyboard layouts (QWERTY, Dvorak, Colemak).
+To customize your layout:
+
+1. Copy `config.lua.example` to `config.lua` in the plugin folder
+
+2. Edit the `active_layout` setting:
+
+   ```lua
+   config.active_layout = 'dvorak'  -- or 'colemak', 'qwerty'
+   ```
+
+3. Optionally override specific keys:
+
+   ```lua
+   config.key_overrides = {
+     ['j'] = 'h',  -- Map j to h
+   }
+   ```
 
 ### Keybindings
 

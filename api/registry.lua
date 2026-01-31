@@ -170,28 +170,38 @@ return {
 
   -- SHAPES
   ruler = {
-    { impl = wrapper.ruler, deps = { 'activateAction' } },
+    { impl = wrapper.ruler, deps = { 'changeActionState' } },
     { impl = legacy.ruler, deps = { 'uiAction' } },
   },
   arrow = {
-    { impl = wrapper.arrow, deps = { 'activateAction' } },
+    { impl = wrapper.arrow, deps = { 'changeActionState' } },
     { impl = legacy.arrow, deps = { 'uiAction' } },
   },
   rectangle = {
-    { impl = wrapper.rectangle, deps = { 'activateAction' } },
+    { impl = wrapper.rectangle, deps = { 'changeActionState' } },
     { impl = legacy.rectangle, deps = { 'uiAction' } },
   },
   ellipse = {
-    { impl = wrapper.ellipse, deps = { 'activateAction' } },
+    { impl = wrapper.ellipse, deps = { 'changeActionState' } },
     { impl = legacy.ellipse, deps = { 'uiAction' } },
   },
   spline = {
-    { impl = wrapper.spline, deps = { 'activateAction' } },
+    { impl = wrapper.spline, deps = { 'changeActionState' } },
     { impl = legacy.spline, deps = { 'uiAction' } },
   },
   fill = {
     { impl = wrapper.fill, deps = { 'changeActionState' } },
     { impl = legacy.fill, deps = { 'uiAction' } },
+  },
+
+  -- GEOMETRY TOOLS
+  setsquare = {
+    { impl = wrapper.setsquare, deps = { 'activateAction' } },
+    { impl = legacy.setsquare, deps = { 'uiAction' } },
+  },
+  compass = {
+    { impl = wrapper.compass, deps = { 'activateAction' } },
+    { impl = legacy.compass, deps = { 'uiAction' } },
   },
 
   -- COLOR

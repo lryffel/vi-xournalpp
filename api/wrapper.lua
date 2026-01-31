@@ -44,28 +44,53 @@ wrapper.selectObject = function()
 end
 
 -- SHAPES
+local function toggleOrSet(actionName, enabled)
+  if enabled == nil then
+    local currentState = app.getActionState(actionName)
+    enabled = not currentState
+  end
+  app.changeActionState(actionName, enabled)
+end
+
 wrapper.ruler = function(enabled)
-  app.changeActionState('tool-draw-line', enabled)
+  toggleOrSet('tool-draw-line', enabled)
 end
 
 wrapper.arrow = function(enabled)
-  app.changeActionState('tool-draw-arrow', enabled)
+  toggleOrSet('tool-draw-arrow', enabled)
 end
 
 wrapper.rectangle = function(enabled)
-  app.changeActionState('tool-draw-rectangle', enabled)
+  toggleOrSet('tool-draw-rectangle', enabled)
 end
 
 wrapper.ellipse = function(enabled)
-  app.changeActionState('tool-draw-ellipse', enabled)
+  toggleOrSet('tool-draw-ellipse', enabled)
 end
 
 wrapper.spline = function(enabled)
-  app.changeActionState('tool-draw-spline', enabled)
+  toggleOrSet('tool-draw-spline', enabled)
 end
 
 wrapper.fill = function(enabled)
-  app.changeActionState('tool-fill', enabled)
+  toggleOrSet('tool-fill', enabled)
+end
+
+-- GEOMETRY TOOLS
+wrapper.setsquare = function(enabled)
+  local currentState = app.getActionState('setsquare')
+  local shouldEnable = (enabled == nil) and not currentState or enabled
+  if shouldEnable ~= currentState then
+    app.activateAction('setsquare')
+  end
+end
+
+wrapper.compass = function(enabled)
+  local currentState = app.getActionState('compass')
+  local shouldEnable = (enabled == nil) and not currentState or enabled
+  if shouldEnable ~= currentState then
+    app.activateAction('compass')
+  end
 end
 
 -- LINE WIDTH

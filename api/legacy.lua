@@ -67,6 +67,27 @@ legacy.fill = function(enabled)
   app.uiAction({ action = 'ACTION_TOOL_FILL', enabled = enabled })
 end
 
+-- GEOMETRY TOOLS
+-- Hack: Use mutual exclusivity to force state without getActionState
+-- Setsquare and Compass are mutually exclusive - enabling one disables the other
+legacy.setsquare = function(enabled)
+  if enabled == nil or enabled then
+    app.uiAction({ action = 'ACTION_COMPASS' })
+    app.uiAction({ action = 'ACTION_SETSQUARE' })
+  else
+    app.uiAction({ action = 'ACTION_COMPASS' })
+  end
+end
+
+legacy.compass = function(enabled)
+  if enabled == nil or enabled then
+    app.uiAction({ action = 'ACTION_SETSQUARE' })
+    app.uiAction({ action = 'ACTION_COMPASS' })
+  else
+    app.uiAction({ action = 'ACTION_SETSQUARE' })
+  end
+end
+
 -- LINE WIDTH
 legacy.veryFine = function()
   app.uiAction({ action = 'ACTION_SIZE_VERY_FINE' })

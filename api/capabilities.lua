@@ -192,17 +192,56 @@ end
 function capabilities.validateRegistry(registry)
   local cache = capability_cache or initCapabilityCache()
   for func_name, implementations in pairs(registry) do
+    -- Check: Multiple implementations should not have empty deps (except last fallback)
+    local num_implementations = #implementations
+
     for i, impl_spec in ipairs(implementations) do
-      for _, dep in ipairs(impl_spec.deps) do
-        if cache[dep] == nil then
+      -- Check: impl must be a function
+      if type(impl_spec.impl) ~= 'function' then
+        log(
+          'ERROR: Invalid impl in '
+            .. func_name
+            .. ' implementation #'
+            .. i
+            .. ': expected function, got '
+            .. type(impl_spec.impl)
+        )
+      end
+
+      -- Check: deps must be a table
+      if type(impl_spec.deps) ~= 'table' then
+        log(
+          'ERROR: Invalid deps in '
+            .. func_name
+            .. ' implementation #'
+            .. i
+            .. ': expected table, got '
+            .. type(impl_spec.deps)
+        )
+      else
+        -- Check: Multiple implementations with empty deps (only last should be empty)
+        if num_implementations > 1 and #impl_spec.deps == 0 and i < num_implementations then
           log(
-            'WARNING: Unknown dependency "'
-              .. dep
-              .. '" in '
+            'WARNING: '
               .. func_name
               .. ' implementation #'
               .. i
+              .. ' has empty deps but is not the last implementation. This will always be selected.'
           )
+        end
+
+        -- Check: Unknown dependencies
+        for _, dep in ipairs(impl_spec.deps) do
+          if cache[dep] == nil then
+            log(
+              'WARNING: Unknown dependency "'
+                .. dep
+                .. '" in '
+                .. func_name
+                .. ' implementation #'
+                .. i
+            )
+          end
         end
       end
     end
