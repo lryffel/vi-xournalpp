@@ -70,21 +70,30 @@ end
 -- GEOMETRY TOOLS
 -- Hack: Use mutual exclusivity to force state without getActionState
 -- Setsquare and Compass are mutually exclusive - enabling one disables the other
+-- Toggle: call once | On: other then this | Off: other then this twice
 legacy.setsquare = function(enabled)
-  if enabled == nil or enabled then
+  if enabled == nil then
+    app.uiAction({ action = 'ACTION_SETSQUARE' })
+  elseif enabled then
     app.uiAction({ action = 'ACTION_COMPASS' })
     app.uiAction({ action = 'ACTION_SETSQUARE' })
   else
     app.uiAction({ action = 'ACTION_COMPASS' })
+    app.uiAction({ action = 'ACTION_SETSQUARE' })
+    app.uiAction({ action = 'ACTION_SETSQUARE' })
   end
 end
 
 legacy.compass = function(enabled)
-  if enabled == nil or enabled then
+  if enabled == nil then
+    app.uiAction({ action = 'ACTION_COMPASS' })
+  elseif enabled then
     app.uiAction({ action = 'ACTION_SETSQUARE' })
     app.uiAction({ action = 'ACTION_COMPASS' })
   else
     app.uiAction({ action = 'ACTION_SETSQUARE' })
+    app.uiAction({ action = 'ACTION_COMPASS' })
+    app.uiAction({ action = 'ACTION_COMPASS' })
   end
 end
 

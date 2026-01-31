@@ -304,7 +304,7 @@ wrapper.openDialog = function(message, options, callback, isError)
     local callbackName = '__xpp_dialog_cb_' .. tostring({}):sub(8)
     _G[callbackName] = function(button)
       callback(button)
-      _G[callbackName] = nil -- cleanup after execution
+      _G[callbackName] = nil
     end
     app.openDialog(message, options, callbackName, isError)
   else
