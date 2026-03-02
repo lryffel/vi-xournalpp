@@ -72,6 +72,14 @@ wrapper.spline = function(enabled)
   toggleOrSet('tool-draw-spline', enabled)
 end
 
+wrapper.coordinate = function(enabled)
+  toggleOrSet('tool-draw-coordinate-system', enabled)
+end
+
+wrapper.shapeRecognizer = function(enabled)
+  toggleOrSet('tool-draw-shape-recognizer', enabled)
+end
+
 wrapper.fill = function(enabled)
   toggleOrSet('tool-fill', enabled)
 end

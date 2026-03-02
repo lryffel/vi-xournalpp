@@ -189,6 +189,14 @@ return {
     { impl = wrapper.spline, deps = { 'changeActionState' } },
     { impl = legacy.spline, deps = { 'uiAction' } },
   },
+  coordinate = {
+    { impl = wrapper.coordinate, deps = { 'changeActionState' } },
+    { impl = legacy.coordinate, deps = { 'uiAction' } },
+  },
+  shapeRecognizer = {
+    { impl = wrapper.shapeRecognizer, deps = { 'changeActionState' } },
+    { impl = legacy.shapeRecognizer, deps = { 'uiAction' } },
+  },
   fill = {
     { impl = wrapper.fill, deps = { 'changeActionState' } },
     { impl = legacy.fill, deps = { 'uiAction' } },

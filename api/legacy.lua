@@ -43,28 +43,57 @@ legacy.selectObject = function()
 end
 
 -- SHAPES
+local function toggleOrSet(actionName, expectedDrawingType, enabled)
+  if enabled ~= nil then
+    app.uiAction({ action = actionName, enabled = enabled })
+  else
+    local info = app.getToolInfo('active')
+    local currentDrawing = info and info.drawingType or nil
+    local isActive = (currentDrawing == expectedDrawingType)
+
+    app.uiAction({
+      action = actionName,
+      enabled = not isActive,
+    })
+  end
+end
+
 legacy.ruler = function(enabled)
-  app.uiAction({ action = 'ACTION_RULER', enabled = enabled })
+  toggleOrSet('ACTION_RULER', 'line', enabled)
 end
 
 legacy.arrow = function(enabled)
-  app.uiAction({ action = 'ACTION_TOOL_DRAW_ARROW', enabled = enabled })
+  toggleOrSet('ACTION_TOOL_DRAW_ARROW', 'arrow', enabled)
 end
 
 legacy.rectangle = function(enabled)
-  app.uiAction({ action = 'ACTION_TOOL_DRAW_RECT', enabled = enabled })
+  toggleOrSet('ACTION_TOOL_DRAW_RECT', 'rectangle', enabled)
 end
 
 legacy.ellipse = function(enabled)
-  app.uiAction({ action = 'ACTION_TOOL_DRAW_ELLIPSE', enabled = enabled })
+  toggleOrSet('ACTION_TOOL_DRAW_ELLIPSE', 'ellipse', enabled)
 end
 
 legacy.spline = function(enabled)
-  app.uiAction({ action = 'ACTION_TOOL_DRAW_SPLINE', enabled = enabled })
+  toggleOrSet('ACTION_TOOL_DRAW_SPLINE', 'spline', enabled)
+end
+
+legacy.coordinate = function(enabled)
+  toggleOrSet('ACTION_TOOL_DRAW_COORDINATE_SYSTEM', 'drawCoordinateSystem', enabled)
+end
+
+legacy.shapeRecognizer = function(enabled)
+  toggleOrSet('ACTION_SHAPE_RECOGNIZER', 'strokeRecognizer', enabled)
 end
 
 legacy.fill = function(enabled)
-  app.uiAction({ action = 'ACTION_TOOL_FILL', enabled = enabled })
+  if enabled ~= nil then
+    app.uiAction({ action = 'ACTION_TOOL_FILL', enabled = enabled })
+  else
+    local info = app.getToolInfo('active')
+    local currentOpacity = info and info.fillOpacity or -1
+    app.uiAction({ action = 'ACTION_TOOL_FILL', enabled = currentOpacity == -1 })
+  end
 end
 
 -- GEOMETRY TOOLS

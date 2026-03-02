@@ -6,9 +6,9 @@
 
   ```bash
   xournalpp --version
-  xournalpp 1.3.1+dev (f590496d-dirty from youssefadly237/master)
+  xournalpp 1.3.2+dev (78f523f1 from youssefadly237/mine)
   ├──libgtk: 3.24.50
-  ├──glib: 2.86.3
+  ├──glib: 2.87.2
   ├──cairo:  1.18.4
   └──OS info: Ubuntu 26.04 (Resolute Raccoon)
   ```
@@ -45,7 +45,7 @@
 
 - [ ] tex
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] selectRegion
   - [ ] Wrapper
@@ -59,29 +59,37 @@
   - [ ] Wrapper
   - [x] legacy
 
-- [ ] ruler
-  - [ ] Wrapper
-  - [ ] legacy
+- [x] ruler
+  - [x] Wrapper
+  - [x] legacy
 
-- [ ] arrow
-  - [ ] Wrapper
-  - [ ] legacy
+- [x] arrow
+  - [x] Wrapper
+  - [x] legacy
 
-- [ ] rectangle
-  - [ ] Wrapper
-  - [ ] legacy
+- [x] rectangle
+  - [x] Wrapper
+  - [x] legacy
 
-- [ ] ellipse
-  - [ ] Wrapper
-  - [ ] legacy
+- [x] ellipse
+  - [x] Wrapper
+  - [x] legacy
 
-- [ ] spline
-  - [ ] Wrapper
-  - [ ] legacy
+- [x] spline
+  - [x] Wrapper
+  - [x] legacy
 
-- [ ] fill
-  - [ ] Wrapper
-  - [ ] legacy
+- [x] coordinate
+  - [x] Wrapper
+  - [x] legacy
+
+- [x] shape recognizer
+  - [x] Wrapper
+  - [x] legacy
+
+- [x] fill
+  - [x] Wrapper
+  - [x] legacy
 
 - [ ] veryFine
   - [ ] Wrapper
