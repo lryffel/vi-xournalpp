@@ -131,15 +131,15 @@
 
 - [ ] delete
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] undo
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] redo
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] zoomIn
   - [ ] Wrapper
@@ -177,55 +177,43 @@
 
 - [ ] newLayer
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] deleteLayer
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] layerDown
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] layerUp
   - [ ] Wrapper
-  - [ ] legacy
-
-- [ ] currentPage
-  - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] goToFirstPage
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] goToLastPage
   - [ ] Wrapper
-  - [ ] legacy
-
-- [ ] goToPage
-  - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] goToTop
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] goToBottom
   - [ ] Wrapper
-  - [ ] legacy
-
-- [ ] goToPos
-  - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] scrollPageUp
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] scrollPageDown
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] plainBG
   - [ ] Wrapper
@@ -253,28 +241,24 @@
 
 - [ ] open
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] save
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] saveAs
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] annotatePDF
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] exportAsPDF
   - [ ] Wrapper
-  - [ ] legacy
+  - [x] legacy
 
 - [ ] open Dialog
   - [ ] Wrapper
   - [x] legacy
-
-- [ ] getToolInfo
-  - [ ] Wrapper
-  - [ ] legacy
