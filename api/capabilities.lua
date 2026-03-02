@@ -134,23 +134,58 @@ function capabilities.printCoverageSummary()
   local constants_available = 0
   local constants_total = 0
 
-  -- Count API functions
+  local available_apis = {}
+  local unavailable_apis = {}
+  local available_constants = {}
+  local unavailable_constants = {}
+
+  -- Count API functions and collect details
   for key, value in pairs(cache) do
     if not key:match('^app%.C%.') then
       api_total = api_total + 1
       if value then
         api_available = api_available + 1
+        table.insert(available_apis, key)
+      else
+        table.insert(unavailable_apis, key)
       end
     else
       constants_total = constants_total + 1
       if value then
         constants_available = constants_available + 1
+        table.insert(available_constants, key)
+      else
+        table.insert(unavailable_constants, key)
       end
     end
   end
 
+  log('=== API Functions (available) ===')
+  table.sort(available_apis)
+  for _, name in ipairs(available_apis) do
+    log('  ' .. name)
+  end
+
+  log('=== API Functions (unavailable) ===')
+  table.sort(unavailable_apis)
+  for _, name in ipairs(unavailable_apis) do
+    log('  ' .. name)
+  end
+
+  log('=== Constants (available) ===')
+  table.sort(available_constants)
+  for _, name in ipairs(available_constants) do
+    log('  ' .. name)
+  end
+
+  log('=== Constants (unavailable) ===')
+  table.sort(unavailable_constants)
+  for _, name in ipairs(unavailable_constants) do
+    log('  ' .. name)
+  end
+
   log(
-    'API Coverage: '
+    '=== API Coverage: '
       .. api_available
       .. '/'
       .. api_total
@@ -158,7 +193,7 @@ function capabilities.printCoverageSummary()
       .. constants_available
       .. '/'
       .. constants_total
-      .. ' constants'
+      .. ' constants ==='
   )
 end
 
