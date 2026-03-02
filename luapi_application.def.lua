@@ -9,10 +9,10 @@
 -- Source: https://github.com/xournalpp/xournalpp/blob/master/plugins/luapi_application.def.lua
 -- Action properties:
 -- https://github.com/xournalpp/xournalpp/blob/master/src/core/control/actions/ActionProperties.h
--- Based on commit: a348552 (2025-11-04)
--- Permalink: https://github.com/xournalpp/xournalpp/blob/a348552395615bbcbe74ff33c5d1e06d1b1d88b7/plugins/luapi_application.def.lua
+-- Based on commit: b818e3b (2026-03-02)
+-- Permalink: https://github.com/xournalpp/xournalpp/blob/b818e3b2f576197641338063080e0d5ece90ca9d/plugins/luapi_application.def.lua
 --
--- Last synced: 2025-12-23
+-- Last synced: 2026-03-03
 
 ---@meta
 app = {}
@@ -392,16 +392,20 @@ function app.addStrokes(opts) end
 --- }
 function app.addTexts(opts) end
 
---- Returns a list of lua table of the texts (from current selection / current layer).
---- Is mostly inverse to app.addTexts (except getTexts will also retrieve the width/height of the textbox)
+--- Returns a list of lua table of the texts (from current selection / current layer / current page / all pages).
+--- When called with "page" to retrieve all elements on the current page, it also adds a field "layer" for the
+--- layer containing the element, and when called with "all" it additionally adds a field "page" containing its page
+--- index together with its layer (all of them being indexed from 1).
 ---
---- @param type string "selection" or "layer"
+--- Is mostly inverse to app.addTexts (except getTexts may also retrieve the width/height/page/layer of the textbox)
+---
+--- @param type string "selection" or "layer" or "page" or "all"
 --- @return {text:string, font:{name:string, size:number}, color:integer, x:number, y:number, width:number,
---- height:number, ref:lightuserdata}[] texts
+--- height:number, ref:lightuserdata, page:number|nil, layer:number|nil}[] texts
 ---
---- Required argument: type ("selection" or "layer")
+--- Required argument: type ("selection" or "layer" or "page" or "all")
 ---
---- Example: local texts = app.getTexts("layer")
+--- Example: local texts = app.getTexts("all")
 ---
 --- possible return value:
 --- {
@@ -417,6 +421,8 @@ function app.addTexts(opts) end
 ---     width = 55.0,
 ---     height = 23.0,
 ---     ref = userdata: 0x5f644c0700d0
+---     page = 1, -- Only present when called with the "all" argument
+---     layer = 1, -- Only present when called with the "all" or "page" argument
 ---   },
 ---   {
 ---     text = "Testing",
@@ -430,21 +436,27 @@ function app.addTexts(opts) end
 ---     width = 55.0,
 ---     height = 23.0,
 ---     ref = userdata: 0x5f644c0701e8
+---     page = 2,
+---     layer = 1,
 ---   },
 --- }
 ---
 function app.getTexts(type) end
 
---- Puts a Lua Table of the Strokes (from the selection tool / selected layer) onto the stack.
+--- Puts a Lua Table of the Strokes (from the selection tool / selected layer / selected page / all document) onto the
+--- stack. When called with "page" to retrieve all elements on the current page, it also adds a field "layer" for
+--- the layer containing the element, and when called with "all" it additionally adds a field "page" containing its page
+--- index together with its layer (all of them being indexed from 1).
+---
 --- Is inverse to app.addStrokes
 ---
---- @param type string "selection" or "layer"
+--- @param type string "selection" or "layer" or "page" or "all"
 --- @return {x:number[], y:number[], pressure:number[], tool:string, width:number, color:integer, fill:number,
---- linestyle:string, ref:lightuserdata}[] strokes
+--- linestyle:string, ref:lightuserdata, page:number|nil, layer:number|nil}[] strokes
 ---
---- Required argument: type ("selection" or "layer")
+--- Required argument: type ("selection" or "layer" or "page" or "all")
 ---
---- Example: local strokes = app.getStrokes("selection")
+--- Example: local strokes = app.getStrokes("all")
 ---
 --- possible return value:
 --- {
@@ -459,7 +471,9 @@ function app.getTexts(type) end
 ---             ["color"] = 0xa000f0,
 ---             ["fill"] = 0,
 ---             ["lineStyle"] = "plain",
----             ["ref"] = userdata: 0x5f644c02c538
+---             ["ref"] = userdata: 0x5f644c02c538,
+---             ["page"] = 1, -- Only present when called with "all"
+---             ["layer"] = 1, -- Only present when called with "all" or "page"
 ---         },
 ---         {
 ---             ["x"]         = {207, 207.5, 315.2, 315.29, 207.5844},
@@ -470,6 +484,8 @@ function app.getTexts(type) end
 ---             ["fill"]      = -1,
 ---             ["lineStyle"] = "plain",
 ---             ["ref"] = userdata: 0x5f644c02d440
+---             ["page"] = 2,
+---             ["layer"] = 1,
 ---         },
 ---         {
 ---             ["x"]         = {387.60, 387.6042, 500.879, 500.87, 387.604},
@@ -480,6 +496,8 @@ function app.getTexts(type) end
 ---             ["fill"]      = -1,
 ---             ["lineStyle"] = "plain",
 ---             ["ref"] = userdata: 0x5f644c0700d0
+---             ["page"] = 2,
+---             ["layer"] = 2,
 ---         },
 --- }
 function app.getStrokes(type) end
@@ -896,14 +914,18 @@ function app.openFile(path, pageNr, oldDocument) end
 --- maxWidth=400}}}
 function app.addImages(opts) end
 
---- Puts a Lua Table of the Images (from the selection tool / selected layer) onto the stack.
+--- Puts a Lua Table of the Images (from the selection tool / selected layer / selected page / all document) onto the
+--- stack. When called with "page" to retrieve all elements on the current page, it also adds a field "layer" for
+--- the layer containing the element, and when called with "all" it additionally adds a field "page" containing its page
+--- index together with its layer (all of them being indexed from 1).
+---
 --- Is inverse to app.addImages
 ---
---- @param type string "selection" or "layer"
+--- @param type string "selection" or "layer" or "page" or "all"
 --- @return {x:number, y:number, width:number, height:number, data:string, format:string, imageWidth:number,
---- imageHeight:number, ref:lightuserdata}[] images
+--- imageHeight:number, ref:lightuserdata, page:number|nil, layer:number|nil}[] images
 ---
---- Required argument: type ("selection" or "layer")
+--- Required argument: type ("selection" or "layer" or "page" or "all")
 ---
 --- Example: local images = app.getImages("selection")
 ---
@@ -919,6 +941,8 @@ function app.addImages(opts) end
 ---         ["imageWidth"] = integer,
 ---         ["imageHeight"] = integer,
 ---         ["ref"] = userdata: 0x5f644c0700d0
+---         ["page"] = 1, -- Only present when called with "all"
+---         ["layer"] = 1, -- Only present when called with "all" or "page"
 ---     },
 ---     {
 ---         ...
@@ -1068,6 +1092,8 @@ function app.setFont(font) end
 ---| "goto-last"
 ---| "goto-next-annotated-page"
 ---| "goto-previous-annotated-page"
+---| "navigate-back"
+---| "navigate-forward"
 ---| "new-page-before"
 ---| "new-page-after"
 ---| "new-page-at-end"
