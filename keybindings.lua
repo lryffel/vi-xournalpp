@@ -235,7 +235,7 @@ local keybindings = {
   },
   zoomIn = {
     description = 'Zoom in',
-    buttons = { 'greater', '<Shift>greater', 'plus', '<Shift>plus' },
+    buttons = { 'greater', 'plus' },
     modes = { 'tool' },
     call = api.zoomIn,
   },

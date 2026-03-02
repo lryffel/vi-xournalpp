@@ -23,40 +23,40 @@
 
 ## Checklist
 
-- [ ] pen
-  - [ ] Wrapper
+- [x] pen
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] eraser
-  - [ ] Wrapper
+- [x] eraser
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] highlighter
-  - [ ] Wrapper
+- [x] highlighter
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] hand
-  - [ ] Wrapper
+- [x] hand
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] text
-  - [ ] Wrapper
+- [x] text
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] tex
-  - [ ] Wrapper
+- [x] tex
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] selectRegion
-  - [ ] Wrapper
+- [x] selectRegion
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] selectRectangle
-  - [ ] Wrapper
+- [x] selectRectangle
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] selectObject
-  - [ ] Wrapper
+- [x] selectObject
+  - [x] Wrapper
   - [x] legacy
 
 - [x] ruler
@@ -91,174 +91,172 @@
   - [x] Wrapper
   - [x] legacy
 
-- [ ] veryFine
+- [x] veryFine
+  - [x] Wrapper
+  - [x] legacy
+
+- [x] fine
+  - [x] Wrapper
+  - [x] legacy
+
+- [x] medium
+  - [x] Wrapper
+  - [x] legacy
+
+- [x] thick
+  - [x] Wrapper
+  - [x] legacy
+
+- [x] veryThick
   - [ ] Wrapper
   - [x] legacy
 
-- [ ] fine
-  - [ ] Wrapper
+- [x] plain
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] medium
-  - [ ] Wrapper
+- [x] dotted
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] thick
-  - [ ] Wrapper
+- [x] dashed
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] veryThick
-  - [ ] Wrapper
-  - [x] legacy
-
-- [ ] plain
-  - [ ] Wrapper
-  - [x] legacy
-
-- [ ] dotted
-  - [ ] Wrapper
-  - [x] legacy
-
-- [ ] dashed
-  - [ ] Wrapper
-  - [x] legacy
-
-- [ ] dashDotted
-  - [ ] Wrapper
+- [x] dashDotted
+  - [x] Wrapper
   - [x] legacy
 
 - [x] changeToolColor
 
-- [ ] delete
-  - [ ] Wrapper
+- [x] delete
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] undo
-  - [ ] Wrapper
+- [x] undo
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] redo
-  - [ ] Wrapper
+- [x] redo
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] zoomIn
-  - [ ] Wrapper
+- [x] zoomIn
+  - [x] Wrapper
   - [x] legacy
 
-  zooming works but there is something wrong with the mappping
-
-- [ ] zoomOut
-  - [ ] Wrapper
+- [x] zoomOut
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] newBefore
-  - [ ] Wrapper
+- [x] newBefore
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] newAfter
-  - [ ] Wrapper
+- [x] newAfter
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] copyPage
-  - [ ] Wrapper
+- [x] copyPage
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] deletePage
-  - [ ] Wrapper
+- [x] deletePage
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] moveUp
-  - [ ] Wrapper
+- [x] moveUp
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] moveDown
-  - [ ] Wrapper
+- [x] moveDown
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] newLayer
-  - [ ] Wrapper
+- [x] newLayer
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] deleteLayer
-  - [ ] Wrapper
+- [x] deleteLayer
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] layerDown
-  - [ ] Wrapper
+- [x] layerDown
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] layerUp
-  - [ ] Wrapper
+- [x] layerUp
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] goToFirstPage
-  - [ ] Wrapper
+- [x] goToFirstPage
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] goToLastPage
-  - [ ] Wrapper
+- [x] goToLastPage
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] goToTop
-  - [ ] Wrapper
+- [x] goToTop
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] goToBottom
-  - [ ] Wrapper
+- [x] goToBottom
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] scrollPageUp
-  - [ ] Wrapper
+- [x] scrollPageUp
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] scrollPageDown
-  - [ ] Wrapper
+- [x] scrollPageDown
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] plainBG
-  - [ ] Wrapper
+- [x] plainBG
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] ruledBG
-  - [ ] Wrapper
+- [x] ruledBG
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] graphBG
-  - [ ] Wrapper
+- [x] graphBG
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] dottedGraphBG
-  - [ ] Wrapper
+- [x] dottedGraphBG
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] isometricGraphBG
-  - [ ] Wrapper
+- [x] isometricGraphBG
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] isometricDottedGraphBG
-  - [ ] Wrapper
+- [x] isometricDottedGraphBG
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] open
-  - [ ] Wrapper
+- [x] open
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] save
-  - [ ] Wrapper
+- [x] save
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] saveAs
-  - [ ] Wrapper
+- [x] saveAs
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] annotatePDF
-  - [ ] Wrapper
+- [x] annotatePDF
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] exportAsPDF
-  - [ ] Wrapper
+- [x] exportAsPDF
+  - [x] Wrapper
   - [x] legacy
 
-- [ ] open Dialog
-  - [ ] Wrapper
+- [x] open Dialog
+  - [x] Wrapper
   - [x] legacy
