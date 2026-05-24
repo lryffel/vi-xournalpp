@@ -1,5 +1,5 @@
 -- Add plugin directory to package path for module loading
-local script_path = debug.getinfo(1, 'S').source:match('@?(.*/)') or './'
+local script_path = debug.getinfo(1, 'S').source:match('@?(.*[/\\])') or './'
 package.path = script_path .. '?.lua;' .. script_path .. '?/init.lua;' .. package.path
 
 local utils = require('utils')
